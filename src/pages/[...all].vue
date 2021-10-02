@@ -5,13 +5,13 @@ const router = useRouter()
 <template>
   <div>
     <div>
-      <el-icon :size="48">
+      <n-icon :size="48">
         <carbon-warning />
-      </el-icon>
+      </n-icon>
     </div>
     <h1>gibts nicht</h1>
     <div>
-      <el-button @click="router.back()">Zurück</el-button>
+      <n-button @click="router.back()">Zurück</n-button>
     </div>
   </div>
 </template>

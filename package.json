@@ -10,13 +10,11 @@
     "sb-types": "dotenv -- cross-var openapi-typescript %VITE_SUPABASE_URL%/rest/v1/?apikey=%VITE_SUPABASE_ANON_KEY% --output types/supabase.d.ts"
   },
   "dependencies": {
-    "@oruga-ui/oruga-next": "^0.4.5",
     "@sentry/tracing": "^6.13.2",
     "@sentry/vue": "^6.13.2",
     "@supabase/supabase-js": "^1.24.0",
     "@vueuse/core": "^6.5.3",
     "@vueuse/head": "^0.6.0",
-    "element-plus": "^1.1.0-beta.19",
     "loglevel": "^1.7.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.0-rc.10",
