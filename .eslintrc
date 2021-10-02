@@ -1,5 +1,8 @@
 {
   "extends": [
     "@antfu"
-  ]
+  ],
+  "rules": {
+    "eslint-comments/no-unused-disable": "ignore"
+  }
 }

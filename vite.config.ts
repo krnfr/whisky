@@ -5,6 +5,7 @@ import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Markdown from 'vite-plugin-md'
@@ -58,6 +59,7 @@ export default defineConfig({
 
       // custom resolvers
       resolvers: [
+        NaiveUiResolver(),
         // auto import icons
         // https://github.com/antfu/unplugin-icons
         IconsResolver({

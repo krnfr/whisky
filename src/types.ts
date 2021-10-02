@@ -1,3 +1,12 @@
 import { ViteSSGContext } from 'vite-ssg'
+import { definitions as supabase } from 'types/supabase'
+
+type Modify<T, R> = Omit<T, keyof R> & R;
 
 export type UserModule = (ctx: ViteSSGContext) => void
+
+export type Liquor = supabase['liquor']
+export type CollectionItem = Modify<supabase['collection'], {
+    liquor: Liquor
+}>
+

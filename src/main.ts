@@ -4,12 +4,17 @@ import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
-import { log } from './loglevel'
+import log from 'loglevel'
 import App from './App.vue'
+
+
 
 // windicss layers
 import 'virtual:windi-base.css'
 import 'virtual:windi-components.css'
+// naive-ui
+import 'vfonts/Lato.css'
+import 'vfonts/FiraCode.css'
 // your custom styles here
 import './styles/main.css'
 // windicss utilities should be the last style import
