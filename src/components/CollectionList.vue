@@ -2,6 +2,8 @@
 import { supabase } from "~/supabase";
 import { CollectionItem } from "~/types";
 
+const router = useRouter()
+
 defineProps<{
   items: Array<CollectionItem>
 }>()
@@ -9,12 +11,14 @@ defineProps<{
 
 <template>
   <n-space vertical>
-    <n-thing v-for="i in items" :key="i.id" :title="i.liquor.name">
+    <n-thing
+      v-for="i in items"
+      :key="i.id"
+      :title="i.liquor.name"
+      @click="router.push('/items/' + i.id)"
+    >
       <template #avatar>
-        <n-avatar
-          v-if="i.cover"
-          :src="supabase.storage.from('pictures').getPublicUrl(`${i.id}/${i.cover}.jpg`).publicURL?.toString()"
-        />
+        <item-avatar :item="i.id" :image="i.cover" />
       </template>
       <template #header-extra>
         <n-space justify="end">
@@ -30,7 +34,7 @@ defineProps<{
           i.liquor.label.name
         }}
       </template>
-      {{ i.id }}
+      <!-- {{ i.id }} -->
     </n-thing>
   </n-space>
 </template>

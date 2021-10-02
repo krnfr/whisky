@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import log from 'loglevel'
-import { definitions } from 'types/supabase'
 import { supabase, selects } from '../supabase' // eslint-disable-line
-import { CollectionItem } from '~/types'
+import { CollectionItem, Currency } from '~/types'
 
 export const useSupabaseStore = defineStore('supabase', () => {
-  const collection = ref(new Array<definitions['collection']>())
+  const collection = ref(new Array<CollectionItem>())
+  const selectedItem = ref(null)
+  const currencies = ref(new Array<Currency>())
 
   async function getCollection() {
     const { data, error } = await supabase.from<CollectionItem>('collection').select(selects.item)
@@ -29,10 +30,31 @@ export const useSupabaseStore = defineStore('supabase', () => {
     }
   }
 
+  async function getCollectionItem(id:string) {
+    const { data, error } = await supabase.from<CollectionItem>('collection').select(selects.item).eq('id', id).single()
+    if (error) log.error(error.message)
+    return selectedItem.value = data
+  }
+
+  async function getCurrencies() {
+    const { data, error } = await supabase.from<Currency>('currency').select()
+    if (error) log.error(error.message)
+    return currencies.value = data
+  }
+
+  function getCurrencyById(id: number) {
+    return currencies.value.find(c => c.id == id)
+  }
+
   getCollection()
+  getCurrencies()
 
   return {
     collection,
+    selectedItem,
+    currencies,
+    getCurrencyById,
     getCollection,
+    getCollectionItem,
   }
 })
