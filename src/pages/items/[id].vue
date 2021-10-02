@@ -27,8 +27,8 @@ onMounted(async () => {
       </template>
       <n-space>
         <n-tag v-if="item.liquor.category.name" size="small">{{ item.liquor.category.name }}</n-tag>
-        <!-- <public-tag :value="item.public" />
-        <owner-tag v-if="item.owner" :value="item.owner.id" />-->
+        <public-tag :value="item.public" />
+        <!-- <owner-tag v-if="item.owner" :value="item.owner.id" /> -->
       </n-space>
     </n-page-header>
     <n-grid cols="3">
