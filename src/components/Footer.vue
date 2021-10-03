@@ -11,6 +11,10 @@ const menuOptions = [
   {
     key: '/items',
     label: 'Collection'
+  },
+  {
+    key: '/user',
+    label: 'User'
   }
 ]
 

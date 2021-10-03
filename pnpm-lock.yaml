@@ -4,6 +4,7 @@ specifiers:
   '@antfu/eslint-config': ^0.9.0
   '@iconify-json/carbon': ^1.0.3
   '@iconify-json/el': ^1.0.1
+  '@iconify-json/ic': ^1.0.1
   '@intlify/vite-plugin-vue-i18n': ^2.4.0
   '@sentry/tracing': ^6.13.2
   '@sentry/vue': ^6.13.2
@@ -71,6 +72,7 @@ devDependencies:
   '@antfu/eslint-config': 0.9.0_eslint@7.32.0+typescript@4.4.3
   '@iconify-json/carbon': 1.0.3
   '@iconify-json/el': 1.0.1
+  '@iconify-json/ic': 1.0.1
   '@intlify/vite-plugin-vue-i18n': 2.4.0_vite@2.6.2+vue-i18n@9.1.7
   '@types/markdown-it-link-attributes': 3.0.1
   '@types/nprogress': 0.2.0
@@ -1417,6 +1419,12 @@ packages:
 
   /@iconify-json/el/1.0.1:
     resolution: {integrity: sha512-P9T6JbM2Z0eaz3zkqWMCUNvaSYRbOIheI20g4gYFZ8jAXe5DEFxSWZEREJtexquubnCICt20IPSowQxGBGORYQ==}
+    dependencies:
+      '@iconify/types': 1.0.9
+    dev: true
+
+  /@iconify-json/ic/1.0.1:
+    resolution: {integrity: sha512-AK6cwDtjl4IGp6qtvX9XOWDVrKtwAsysOlhq/9FcRExIZMD1AvoN4xTyXjSQVPZJu8SEFIG8QCkKzttZysPDkQ==}
     dependencies:
       '@iconify/types': 1.0.9
     dev: true
@@ -7936,8 +7944,8 @@ packages:
     resolution: {integrity: sha512-jkjy6pjU1fxUvI51P+gCsxg1u2n8LSt0W6KrCNQceaziKzff74GoWmjVG46KieVzybO1sttPQmYfrwSHey7GUA==}
     dev: true
 
-  /vscode-vue-languageservice/0.27.27:
-    resolution: {integrity: sha512-q5vaaTxQpsqr4O2h2A5zXQtK17ZHKdrcjv6gZaItTBcI4rxw6GIHoblYsNXMo+dhBZEmFmyI18iPn+a7RajFEQ==}
+  /vscode-vue-languageservice/0.27.28:
+    resolution: {integrity: sha512-dkYufKL/kchAxIxz2mYJDwsQuc7wnjTY+vc+sVz/DkFWfPEK0VaOStuKc85UME6VJ2IJzGEN1LHERGM65u8deQ==}
     dependencies:
       '@volar/code-gen': 0.27.24
       '@volar/html2pug': 0.27.13
@@ -8021,7 +8029,7 @@ packages:
       typescript: '*'
     dependencies:
       typescript: 4.4.3
-      vscode-vue-languageservice: 0.27.27
+      vscode-vue-languageservice: 0.27.28
     dev: true
 
   /vue/3.2.19:

@@ -7,8 +7,6 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import log from 'loglevel'
 import App from './App.vue'
 
-
-
 // windicss layers
 import 'virtual:windi-base.css'
 import 'virtual:windi-components.css'
