@@ -23,8 +23,8 @@ const showSelectCover = ref(false)
 
 const props = defineProps<{
   itemId: string,
-  upload: boolean,
-  cover: string,
+  upload?: boolean,
+  cover?: string,
 }>()
 
 async function loadList() {
@@ -75,15 +75,15 @@ mitt.on('update', loadList)
 <template>
   <n-space vertical>
     <n-image-group>
-      <n-space>
-        <div v-for="pic in list" :key="pic.id">
-          <n-image :src="getSrc(pic.id)" object-fit="cover" width="200" height="150" />
+      <n-grid cols="3">
+        <n-gi v-for="pic in list" :key="pic.id" style="height: 150px; width: 100%;">
+          <n-image :src="getSrc(pic.id)" object-fit="cover" />
           <n-space class="image-tags" size="small">
             <n-tag v-if="pic.id == cover" size="small" round style="color: blue;">cover</n-tag>
             <n-tag v-if="pic.candid" size="small" round style="color: green;">candid</n-tag>
           </n-space>
-        </div>
-      </n-space>
+        </n-gi>
+      </n-grid>
     </n-image-group>
     <n-space justify="end">
       <n-button @click="showSelectCover = true">cover</n-button>
