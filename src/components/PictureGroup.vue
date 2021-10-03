@@ -2,6 +2,7 @@
 import { useSupabaseStore } from '~/stores/supabase';
 import { Picture } from '~/types';
 import { supabase } from '~/supabase';
+import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui';
 
 const api = useSupabaseStore()
@@ -35,6 +36,8 @@ watch(
   () => [props.itemId],
   async () => { await loadList() }
 )
+
+mitt.on('update', loadList)
 </script>
 
 <template>
