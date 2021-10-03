@@ -20,8 +20,8 @@ function valueConverted() {
 <template>
   <div v-if="props.value">
     <span v-html="valueFormatted()" />
-    <span v-if="currency" v-html="' ' + c.symbol" />
-    <n-text depth="3" v-if="props.convert && currency > 1">
+    <span v-if="currency && c" v-html="' ' + c.symbol" />
+    <n-text depth="3" v-if="props.convert && currency > 1 && c">
       <span>&nbsp;/&nbsp;</span>
       <span v-html="valueConverted()" />
       <span>&nbsp;€</span>
