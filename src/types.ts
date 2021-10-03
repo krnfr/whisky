@@ -6,6 +6,7 @@ type Modify<T, R> = Omit<T, keyof R> & R;
 export type UserModule = (ctx: ViteSSGContext) => void
 
 export type Currency = supabase['currency']
+export type Picture = supabase['picture']
 export type Liquor = supabase['liquor']
 export type CollectionItem = Modify<supabase['collection'], {
     liquor: Liquor

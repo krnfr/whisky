@@ -40,24 +40,27 @@ onMounted(async () => {
         <!-- <owner-tag v-if="item.owner" :value="item.owner.id" /> -->
       </n-space>
     </n-page-header>
-    <n-space>
-      <n-statistic
-        v-if="api.selectedItem.purchase_date"
-        label="Kaufdatum"
-        :value="api.selectedItem.purchase_date"
-      />
-      <n-statistic
-        v-if="api.selectedItem.purchase_location"
-        label="Kaufort"
-        :value="api.selectedItem.purchase_location"
-      />
-      <n-statistic v-if="api.selectedItem.purchase_price" label="Kaufpreis">
-        <price-info
-          convert
-          :value="api.selectedItem.purchase_price"
-          :currency="api.selectedItem.purchase_currency"
+    <n-space vertical>
+      <n-space>
+        <n-statistic
+          v-if="api.selectedItem.purchase_date"
+          label="Kaufdatum"
+          :value="api.selectedItem.purchase_date"
         />
-      </n-statistic>
+        <n-statistic
+          v-if="api.selectedItem.purchase_location"
+          label="Kaufort"
+          :value="api.selectedItem.purchase_location"
+        />
+        <n-statistic v-if="api.selectedItem.purchase_price" label="Kaufpreis">
+          <price-info
+            convert
+            :value="api.selectedItem.purchase_price"
+            :currency="api.selectedItem.purchase_currency"
+          />
+        </n-statistic>
+      </n-space>
+      <picture-group :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
     </n-space>
   </div>
   <div v-else>
