@@ -31,19 +31,13 @@ onMounted(async () => {
         <!-- <owner-tag v-if="item.owner" :value="item.owner.id" /> -->
       </n-space>
     </n-page-header>
-    <n-grid cols="3">
-      <n-gi v-if="item.purchase_date">
-        <n-statistic label="Kaufdatum" :value="item.purchase_date" />
-      </n-gi>
-      <n-gi v-if="item.purchase_location">
-        <n-statistic label="Kaufort" :value="item.purchase_location" />
-      </n-gi>
-      <n-gi v-if="item.purchase_price">
-        <n-statistic label="Kaufpreis">
-          <price-info convert :value="item.purchase_price" :currency="item.purchase_currency" />
-        </n-statistic>
-      </n-gi>
-    </n-grid>
+    <n-space>
+      <n-statistic v-if="item.purchase_date" label="Kaufdatum" :value="item.purchase_date" />
+      <n-statistic v-if="item.purchase_location" label="Kaufort" :value="item.purchase_location" />
+      <n-statistic v-if="item.purchase_price" label="Kaufpreis">
+        <price-info convert :value="item.purchase_price" :currency="item.purchase_currency" />
+      </n-statistic>
+    </n-space>
   </div>
   <div v-else>
     <n-skeleton text :repeat="2" />
