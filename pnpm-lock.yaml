@@ -27,6 +27,7 @@ specifiers:
   loglevel: ^1.7.1
   markdown-it-link-attributes: ^3.0.0
   markdown-it-prism: ^2.2.1
+  mitt: ^3.0.0
   naive-ui: ^2.19.3
   nprogress: ^0.2.0
   openapi-typescript: ^4.3.0
@@ -60,6 +61,7 @@ dependencies:
   '@vueuse/core': 6.5.3_vue@3.2.19
   '@vueuse/head': 0.6.0_vue@3.2.19
   loglevel: 1.7.1
+  mitt: 3.0.0
   nprogress: 0.2.0
   pinia: 2.0.0-rc.10_typescript@4.4.3+vue@3.2.19
   prism-theme-vars: 0.2.2
@@ -5759,6 +5761,10 @@ packages:
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
     dev: true
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
 
   /mkdirp/0.5.5:
     resolution: {integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==}

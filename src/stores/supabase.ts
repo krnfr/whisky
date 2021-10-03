@@ -2,17 +2,20 @@ import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
 import { CollectionItem, Currency } from '~/types'
+import { useMessage } from 'naive-ui'
+
+const message = useMessage()
 
 export const useSupabaseStore = defineStore('supabase', () => {
   const collection = ref(new Array<CollectionItem>())
-  const selectedItem = ref(null)
+  const selectedItem = ref<CollectionItem>()
   const currencies = ref(new Array<Currency>())
 
   async function getCollection() {
     const { data, error } = await supabase.from<CollectionItem>('collection').select(selects.item)
-    if (error) log.error(error.message)
+    if (error) message.error(error.message)
     else {
-      collection.value = data
+      collection.value = data ? data : collection.value
       return collection.value.sort((a, b) => {
       var nameA = a.liquor.name.toUpperCase(); // ignore upper and lowercase
       var nameB = b.liquor.name.toUpperCase(); // ignore upper and lowercase
@@ -32,14 +35,16 @@ export const useSupabaseStore = defineStore('supabase', () => {
 
   async function getCollectionItem(id:string) {
     const { data, error } = await supabase.from<CollectionItem>('collection').select(selects.item).eq('id', id).single()
-    if (error) log.error(error.message)
+    if (error) message.error(error.message)
+    if(!data) return
+    log.debug(`loading item:${data.id}`)
     return selectedItem.value = data
   }
 
   async function getCurrencies() {
     const { data, error } = await supabase.from<Currency>('currency').select()
-    if (error) log.error(error.message)
-    return currencies.value = data
+    if (error) message.error(error.message)
+    return currencies.value = data ? data : currencies.value
   }
 
   function getCurrencyById(id: number) {
