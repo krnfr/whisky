@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSupabaseStore } from '~/stores/supabase';
-import { Picture } from '~/types';
+import { CollectionItem, Picture } from '~/types';
 import { supabase } from '~/supabase';
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui';
@@ -9,6 +9,17 @@ const api = useSupabaseStore()
 const message = useMessage()
 
 const list = ref(new Array<Picture>())
+const selectList = computed(() => {
+  const data = new Array<{ id: string, src: string }>()
+  list.value.forEach((pic) => {
+    data.push({
+      id: pic.id,
+      src: getSrc(pic.id)
+    })
+  })
+  return data
+})
+const showSelectCover = ref(false)
 
 const props = defineProps<{
   itemId: string,
@@ -26,6 +37,28 @@ async function loadList() {
   if (data) list.value = data
 }
 
+async function deleteCover() {
+  const { error } = await supabase.from<CollectionItem>('collection')
+    .update({ cover: null })
+    .match({ id: props.itemId })
+  if (error) message.error(error.message)
+  else {
+    mitt.emit('update')
+    showSelectCover.value = false
+  }
+}
+
+async function setCover(id: string) {
+  const { error } = await supabase.from<CollectionItem>('collection')
+    .update({ cover: id })
+    .match({ id: props.itemId })
+  if (error) message.error(error.message)
+  else {
+    mitt.emit('update')
+    showSelectCover.value = false
+  }
+}
+
 loadList()
 
 function getSrc(id: string) {
@@ -36,7 +69,6 @@ watch(
   () => [props.itemId],
   async () => { await loadList() }
 )
-
 mitt.on('update', loadList)
 </script>
 
@@ -54,9 +86,20 @@ mitt.on('update', loadList)
       </n-space>
     </n-image-group>
     <n-space justify="end">
-      <!-- <n-button>cover</n-button> -->
+      <n-button @click="showSelectCover = true">cover</n-button>
       <n-button v-if="props.upload">upload</n-button>
     </n-space>
+    <n-modal v-model:show="showSelectCover">
+      <n-card style="width: 85%; height: 65%;" title="Cover auswählen" :bordered="true" size="huge">
+        <picture-select :list="selectList" @selected="(ctx) => setCover(ctx)" />
+        <template #action>
+          <n-space justify="end">
+            <n-button @click="deleteCover" type="error">Löschen</n-button>
+            <n-button @click="showSelectCover = false">Abbrechen</n-button>
+          </n-space>
+        </template>
+      </n-card>
+    </n-modal>
   </n-space>
 </template>
 

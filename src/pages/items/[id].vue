@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import log from "loglevel";
-import { useSupabaseStore } from "~/stores/supabase";
+import log from 'loglevel'
+import { mitt } from '~/mitt'
+import { useSupabaseStore } from '~/stores/supabase'
 
 const props = defineProps<{ id: string }>()
 const api = useSupabaseStore()
@@ -18,6 +19,7 @@ onMounted(async () => {
   await refresh()
 })
 
+mitt.on('update', refresh)
 </script>
 
 <template>

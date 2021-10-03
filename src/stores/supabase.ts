@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
 import { CollectionItem, Currency } from '~/types'
+import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
 
 const message = useMessage()
@@ -51,8 +52,13 @@ export const useSupabaseStore = defineStore('supabase', () => {
     return currencies.value.find(c => c.id == id)
   }
 
-  getCollection()
-  getCurrencies()
+  async function refresh() {
+    await getCollection()
+    await getCurrencies()
+  }
+
+  refresh()
+  mitt.on('update', refresh)
 
   return {
     collection,
