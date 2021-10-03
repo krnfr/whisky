@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { useSupabaseStore } from '~/stores/supabase';
-import { CollectionItem, Picture } from '~/types';
-import { supabase } from '~/supabase';
+import log from 'loglevel'
+import { useMessage } from 'naive-ui'
+import Compressor from 'compressorjs'
+import { useSupabaseStore } from '~/stores/supabase'
+import { CollectionItem, Picture } from '~/types'
+import { supabase } from '~/supabase'
 import { mitt } from '~/mitt'
-import { useMessage } from 'naive-ui';
+import { useUserStore } from '~/stores/user'
 
 const api = useSupabaseStore()
+const user = useUserStore()
 const message = useMessage()
 
 const list = ref(new Array<Picture>())
@@ -20,6 +24,7 @@ const selectList = computed(() => {
   return data
 })
 const showSelectCover = ref(false)
+const uploadDisabled = ref(false)
 
 const props = defineProps<{
   itemId: string,
@@ -61,6 +66,74 @@ async function setCover(id: string) {
 
 loadList()
 
+async function handleImages({ file }) {
+  uploadDisabled.value = true
+  let pic: File | Blob = file.file
+  let thumb: File | Blob
+  async function upload(pic: File | Blob, thumb: File | Blob) {
+    log.debug(pic)
+    log.debug(thumb)
+    const { data: dbData, error: dbError } = await supabase
+      .from<Picture>('picture')
+      .insert({ collection: props.itemId })
+      .single()
+    if (dbError) {
+      uploadDisabled.value = false
+      return message.error(dbError.message)
+    }
+    const id = dbData.id
+    const options = { cacheControl: '3600', upsert: false }
+
+    var { error } = await supabase.storage
+      .from('pictures')
+      .upload(`${props.itemId}/${id}.jpg`, pic, options)
+    if (error) {
+      uploadDisabled.value = false
+      return message.error(error.message)
+    }
+
+    var { error } = await supabase.storage
+      .from('pictures')
+      .upload(`${props.itemId}/${id}-thumb.jpg`, thumb, options)
+    if (error) {
+      uploadDisabled.value = false
+      return message.error(error.message)
+    }
+    await loadList()
+    uploadDisabled.value = false
+  }
+
+  new Compressor(pic, {
+    maxHeight: 1500,
+    maxWidth: 1500,
+    mimeType: 'image/jpeg',
+    success(result) {
+      log.debug('pic generated')
+      pic = result
+
+      new Compressor(pic, {
+        maxHeight: 250,
+        maxWidth: 250,
+        // quality: 0.6,
+        async success(result) {
+          log.debug('thumb generated')
+          thumb = result
+          await upload(pic, thumb)
+        },
+        error(error) {
+          message.error(error.message)
+          uploadDisabled.value = false
+        }
+      })
+    },
+    error(error) {
+      message.error(error.message)
+      uploadDisabled.value = false
+    }
+  })
+  return false
+}
+
 function getSrc(id: string) {
   return supabase.storage.from('pictures').getPublicUrl(`${props.itemId}/${id}.jpg`).publicURL
 }
@@ -75,7 +148,7 @@ mitt.on('update', loadList)
 <template>
   <n-space vertical>
     <n-image-group>
-      <n-grid cols="3">
+      <n-grid cols="3" :x-gap="10" :y-gap="10">
         <n-gi v-for="pic in list" :key="pic.id" style="height: 150px; width: 100%;">
           <n-image :src="getSrc(pic.id)" object-fit="cover" />
           <n-space class="image-tags" size="small">
@@ -83,11 +156,38 @@ mitt.on('update', loadList)
             <n-tag v-if="pic.candid" size="small" round style="color: green;">candid</n-tag>
           </n-space>
         </n-gi>
+        <n-gi v-if="props.upload && user.loggedIn">
+          <n-upload
+            :show-file-list="false"
+            accept="image/jpeg, image/png;capture=camera"
+            @before-upload="handleImages"
+            :disabled="uploadDisabled"
+          >
+            <n-spin :show="uploadDisabled">
+              <n-upload-dragger style="height: 150px; width: 200px; padding-top: 40px;">
+                <n-space vertical justify="center" align="center">
+                  <div>
+                    <n-icon size="25" :depth="2">
+                      <mdi-image-search />
+                    </n-icon>
+                    <n-icon :depth="3" size="25">
+                      <mdi-plus />
+                    </n-icon>
+                    <n-icon size="25" :depth="2">
+                      <mdi-camera-outline />
+                    </n-icon>
+                  </div>
+                  <n-text :depth="2">Upload Bilder</n-text>
+                </n-space>
+              </n-upload-dragger>
+              <template #description>Verarbeite Bild</template>
+            </n-spin>
+          </n-upload>
+        </n-gi>
       </n-grid>
     </n-image-group>
     <n-space justify="end">
       <n-button @click="showSelectCover = true">cover</n-button>
-      <n-button v-if="props.upload">upload</n-button>
     </n-space>
     <n-modal v-model:show="showSelectCover">
       <n-card style="width: 85%; height: 65%;" title="Cover auswählen" :bordered="true" size="huge">

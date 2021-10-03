@@ -62,7 +62,7 @@ mitt.on('update', refresh)
           />
         </n-statistic>
       </n-space>
-      <picture-group :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
+      <picture-group upload :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
     </n-space>
   </div>
   <div v-else>

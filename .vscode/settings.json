@@ -11,4 +11,7 @@
   "files.associations": {
     "*.css": "postcss",
   },
+  "iconify.includes": [
+    "mdi"
+  ],
 }
