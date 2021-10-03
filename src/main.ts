@@ -40,7 +40,7 @@ if (import.meta.env.PROD) {
     createApp,
     dsn: import.meta.env.VITE_SENTRY_DNS,
     integrations: [new Integrations.BrowserTracing()],
-
+    version: import.meta.env.BUILD_ID,
     // We recommend adjusting this value in production, or using tracesSampler
     // for finer control
     tracesSampleRate: 1.0,
