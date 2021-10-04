@@ -105,6 +105,8 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getCategories()
     return data
   }
+
+  const getCategoryName = (id: number) => categories.value.find(c => c.id == id)?.name ?? 'Unbekannt'
   /* #endregion */
 
   /* #region label */
@@ -144,6 +146,8 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getLabels()
     return data
   }
+
+  const getLabelName = (id: number) => labels.value.find(l => l.id == id)?.name ?? 'Unbekannt'
   /* #endregion */
 
   /* #region liquor */
@@ -181,6 +185,26 @@ export const useSupabaseStore = defineStore('supabase', () => {
     })
     return list
   }
+
+  async function addLiquor(name: string, category: number = 0, label: number = 0, notes: string = '') {
+    const { data, error } = await supabase
+      .from('liquor')
+      .insert({
+        name: name,
+        category: category ? category : null,
+        label: label ? label : null,
+        notes: notes ? notes : null
+      }).single()
+    if (error) {
+      log.error(error)
+      message.error(error.message)
+      return null
+    }
+    await getLiquors()
+    return data
+  }
+
+  const getLiquorName = (id: number) => liquors.value.find(l => l.id == id)?.name ?? 'ERROR'
   /* #endregion */
 
   /* #region package */
@@ -289,7 +313,6 @@ export const useSupabaseStore = defineStore('supabase', () => {
   }
   /* #endregion */
 
-
   async function refresh() {
     if (selectedItem.value?.id) {
       await getCollectionItem(selectedItem.value.id)
@@ -319,15 +342,19 @@ export const useSupabaseStore = defineStore('supabase', () => {
     categories,
     selectCategories,
     getCategories,
+    getCategoryName,
     addCategory,
     labels,
     selectLabels,
     getLabels,
+    getLabelName,
     addLabel,
     liquors,
     getLiquors,
+    getLiquorName,
     filterLiqours,
     selectLiquors,
+    addLiquor,
     packages,
     getPackages,
     selectPackages,

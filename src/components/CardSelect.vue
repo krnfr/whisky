@@ -2,8 +2,8 @@
 
 const emit = defineEmits(['update:value', 'on-update:value', 'add', 'save', 'skip'])
 const props = defineProps<{
-  value: number | string,
   options: Array<{ label: string | undefined, value: string | number, sublabel?: string | undefined | null }>
+  value?: number | string,
   add?: boolean,
   simple?: boolean,
   skip?: boolean,
