@@ -5,6 +5,7 @@ const props = defineProps<{
   add?: boolean,
   addTemplate?: boolean,
   skip?: boolean,
+  working?: boolean,
   noUnknown?: boolean,
   selected?: string | number,
   list: Array<{ label: string | undefined, value: string | number }>
@@ -53,25 +54,31 @@ function add() {
         </n-icon>
       </n-space>
     </n-card>
-    <n-card v-if="props.addTemplate" size="small" @click="emit('selected')">
-      <template #header>
-        <n-space size="small" align="stretch">
-          <n-icon size="25">
-            <mdi-add />
-          </n-icon>
-          <n-text>Neu</n-text>
-        </n-space>
-      </template>
-      <template #action>
-        <n-space size="small" justify="end">
-          <n-button type="success" @click="emit('save')">Speichern</n-button>
-        </n-space>
-      </template>
-      <slot name="add" />
-    </n-card>
+    <n-spin :show="working" v-if="props.addTemplate">
+      <n-card size="small" @click="emit('selected')">
+        <template #header>
+          <n-space size="small" align="stretch">
+            <n-icon size="25">
+              <mdi-add />
+            </n-icon>
+            <n-text>Neu</n-text>
+          </n-space>
+        </template>
+        <template #action>
+          <n-space size="small" justify="end">
+            <n-button :disabled="working" type="success" @click="emit('save')">Speichern</n-button>
+          </n-space>
+        </template>
+        <slot name="add" />
+      </n-card>
+    </n-spin>
+
     <n-space v-if="!props.addTemplate" justify="end">
       <n-input v-if="props.add" v-model:value="value" />
-      <n-button v-if="props.add" @click="add" type="primary">Hinzufügen</n-button>
+      <n-button :disabled="working" v-if="props.add" @click="add" type="primary">
+        <n-spin v-if="working" stroke="white" size="20" />
+        <span v-else>Hinzufügen</span>
+      </n-button>
       <n-button v-if="props.skip" @click="emit('selected')" type="warning">Skip</n-button>
     </n-space>
   </n-space>
