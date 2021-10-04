@@ -28,6 +28,7 @@ declare module 'vue' {
     IMdiImageSearch: typeof import('~icons/mdi/image-search')['default']
     ItemAvatar: typeof import('./components/ItemAvatar.vue')['default']
     MdiCameraOutline: typeof import('~icons/mdi/camera-outline')['default']
+    MdiDelete: typeof import('~icons/mdi/delete')['default']
     MdiImageSearch: typeof import('~icons/mdi/image-search')['default']
     MdiPlus: typeof import('~icons/mdi/plus')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']

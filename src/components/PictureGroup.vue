@@ -132,6 +132,24 @@ async function handleImages({ file }) {
   return false
 }
 
+async function handleDelete(id: string) {
+  log.debug('deleting ' + id)
+  const { error: storageError } = await supabase.storage
+    .from('pictures')
+    .remove([`${props.itemId}/${id}.jpg`, `${props.itemId}/${id}-thumb.jpg`])
+  if (storageError) {
+    message.warning(storageError.message)
+    return
+  }
+  const { error } = await supabase
+    .from('picture')
+    .delete()
+    .match({ id: id })
+  if (error) message.error(error.message)
+
+  await loadList()
+}
+
 function getSrc(id: string) {
   return supabase.storage.from('pictures').getPublicUrl(`${props.itemId}/${id}.jpg`).publicURL
 }
@@ -149,7 +167,12 @@ mitt.on('update', loadList)
       <n-grid cols="3" :x-gap="10" :y-gap="10">
         <n-gi v-for="pic in list" :key="pic.id" style="height: 150px; width: 100%;">
           <n-image :src="getSrc(pic.id)" object-fit="cover" />
-          <n-space class="image-tags" size="small">
+          <n-space align="center" class="image-tags" size="small">
+            <n-button v-if="user.loggedIn" @click="handleDelete(pic.id)" size="small" type="error">
+              <n-icon>
+                <mdi-delete />
+              </n-icon>
+            </n-button>
             <n-tag v-if="pic.id == cover" size="small" round style="color: blue;">cover</n-tag>
             <n-tag v-if="pic.candid" size="small" round style="color: green;">candid</n-tag>
           </n-space>
