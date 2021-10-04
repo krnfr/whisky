@@ -7,38 +7,48 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export const queries = {}
 export const selects = {
   item: `
+    id,
+    condition,
+    cover,
+    public,
+    purchase_price,
+    purchase_currency,
+    purchase_date,
+    purchase_location,
+    open,
+    notes,
+    year,
+    version,
+    owner (
+      id,
+      name
+    ),
+    package_rating,
+    package (
+      id,
+      name
+    ),
+    liquor (
+      id,
+      name,
+      label (
         id,
-        condition,
-        cover,
-        public,
-        purchase_price,
-        purchase_currency,
-        purchase_date,
-        purchase_location,
-        open,
-        notes,
-        year,
-        version,
-        owner (
-          id,
-          name
-        ),
-        package_rating,
-        package (
-          id,
-          name
-        ),
-        liquor (
-          id,
-          name,
-          label (
-            id,
-            name
-          ),
-          category (
-            id,
-            name
-          )
-        )
-      `,
+        name
+      ),
+      category (
+        id,
+        name
+      )
+    )
+    `,
+  storage: `
+    id,
+    name,
+    owner,
+    notes,
+    location (
+      id,
+      name
+    )
+    `
 }

@@ -209,9 +209,9 @@ mitt.on('update', loadList)
         </n-gi>
       </n-grid>
     </n-image-group>
-    <n-space v-if="user.loggedIn" justify="end">
+    <!-- <n-space v-if="user.loggedIn" justify="end">
       <n-button @click="showSelectCover = true">Set Cover</n-button>
-    </n-space>
+    </n-space>-->
     <n-modal v-model:show="showSelectCover">
       <n-card style="width: 85%; height: 65%;" title="Cover auswählen" :bordered="true" size="huge">
         <picture-select :list="selectList" @selected="(ctx) => setCover(ctx)" />

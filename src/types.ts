@@ -12,6 +12,9 @@ export type Currency = supabase['currency']
 export type Owner = supabase['owner']
 export type Picture = supabase['picture']
 export type Liquor = supabase['liquor']
+export type Storage = Modify<supabase['storage'], {
+    location?: Storage
+}>
 export type CollectionItem = Modify<supabase['collection'], {
     liquor: Liquor
 }>

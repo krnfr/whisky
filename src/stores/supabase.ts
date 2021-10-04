@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
-import { Category, CollectionItem, Currency, Label, Liquor, Owner, Package } from '~/types'
+import { Category, CollectionItem, Currency, Label, Liquor, Owner, Package, Storage } from '~/types'
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
-import { isTemplateNode } from '.pnpm/@vue+compiler-core@3.2.19/node_modules/@vue/compiler-core'
 
 const message = useMessage()
 
@@ -242,6 +241,55 @@ export const useSupabaseStore = defineStore('supabase', () => {
   }
   /* #endregion */
 
+  /* #region storage */
+  const storage = ref(new Array<Storage>())
+
+  async function getStorage() {
+    const { data, error } = await supabase
+      .from<Storage>('storage')
+      .select(selects.storage)
+      .order('name')
+    if (error) {
+      log.error(error.message)
+      message.error(error.message)
+      return storage
+    }
+    storage.value = data ? data : storage.value
+    return storage
+  }
+
+  function selectStorage() {
+    const list = new Array<{ value: string, label: string, sublabel?: string | null }>()
+    storage.value.forEach(s => {
+      list.push({
+        value: s.id,
+        label: s.name,
+        sublabel: s.location ? s.location.name : null
+      })
+    })
+    return list
+  }
+
+  async function addStorage(name: string, location = '', owner = '', notes = '') {
+    const { data, error } = await supabase
+      .from('storage')
+      .insert({
+        name: name,
+        location: location ? location : null,
+        owner: owner ? owner : null,
+        notes: notes ? notes : null
+      }).single()
+    if (error) {
+      log.error(error.message)
+      log.error(error.message)
+      return null
+    }
+    await getStorage()
+    return data
+  }
+  /* #endregion */
+
+
   async function refresh() {
     if (selectedItem.value?.id) {
       await getCollectionItem(selectedItem.value.id)
@@ -254,6 +302,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getLiquors()
     await getPackages()
     await getOwners()
+    await getStorage()
   }
 
   refresh()
@@ -285,5 +334,9 @@ export const useSupabaseStore = defineStore('supabase', () => {
     owners,
     getOwners,
     selectOwner,
+    storage,
+    getStorage,
+    selectStorage,
+    addStorage,
   }
 })

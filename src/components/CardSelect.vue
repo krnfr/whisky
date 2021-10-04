@@ -3,7 +3,7 @@
 const emit = defineEmits(['update:value', 'on-update:value', 'add', 'save', 'skip'])
 const props = defineProps<{
   value: number | string,
-  options: Array<{ label: string | undefined, value: string | number }>
+  options: Array<{ label: string | undefined, value: string | number, sublabel?: string | undefined | null }>
   add?: boolean,
   simple?: boolean,
   skip?: boolean,
@@ -34,7 +34,7 @@ function add() {
 
 <template>
   <n-space vertical>
-    <n-card hoverable v-if="!noUnknown" size="small" @click="updateValue">
+    <n-card hoverable v-if="!noUnknown" size="small" @click="updateValue()">
       <n-space justify="space-between" align="center">
         <div>
           <n-text strong>{{ unknownLabel }}</n-text>
@@ -55,6 +55,7 @@ function add() {
       <n-space justify="space-between" align="center">
         <div>
           <n-text strong>{{ i.label }}</n-text>
+          <n-text v-if="i.sublabel" depth="2">&nbsp;- {{ i.sublabel }}</n-text>
         </div>
         <n-icon v-if="value == i.value" size="20" color="#0e7a0d">
           <mdi-check-circle />

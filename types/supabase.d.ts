@@ -130,6 +130,7 @@ export interface paths {
           open?: parameters["rowFilter.collection.open"];
           notes?: parameters["rowFilter.collection.notes"];
           version?: parameters["rowFilter.collection.version"];
+          purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -198,6 +199,7 @@ export interface paths {
           open?: parameters["rowFilter.collection.open"];
           notes?: parameters["rowFilter.collection.notes"];
           version?: parameters["rowFilter.collection.version"];
+          purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
         };
         header: {
           /** Preference */
@@ -230,6 +232,7 @@ export interface paths {
           open?: parameters["rowFilter.collection.open"];
           notes?: parameters["rowFilter.collection.notes"];
           version?: parameters["rowFilter.collection.version"];
+          purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
         };
         body: {
           /** collection */
@@ -560,6 +563,7 @@ export interface paths {
           created_at?: parameters["rowFilter.owner.created_at"];
           updated_at?: parameters["rowFilter.owner.updated_at"];
           name?: parameters["rowFilter.owner.name"];
+          user?: parameters["rowFilter.owner.user"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -614,6 +618,7 @@ export interface paths {
           created_at?: parameters["rowFilter.owner.created_at"];
           updated_at?: parameters["rowFilter.owner.updated_at"];
           name?: parameters["rowFilter.owner.name"];
+          user?: parameters["rowFilter.owner.user"];
         };
         header: {
           /** Preference */
@@ -632,6 +637,7 @@ export interface paths {
           created_at?: parameters["rowFilter.owner.created_at"];
           updated_at?: parameters["rowFilter.owner.updated_at"];
           name?: parameters["rowFilter.owner.name"];
+          user?: parameters["rowFilter.owner.user"];
         };
         body: {
           /** owner */
@@ -851,8 +857,9 @@ export interface paths {
           created_at?: parameters["rowFilter.storage.created_at"];
           updated_at?: parameters["rowFilter.storage.updated_at"];
           name?: parameters["rowFilter.storage.name"];
-          location?: parameters["rowFilter.storage.location"];
           owner?: parameters["rowFilter.storage.owner"];
+          notes?: parameters["rowFilter.storage.notes"];
+          location?: parameters["rowFilter.storage.location"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -907,8 +914,9 @@ export interface paths {
           created_at?: parameters["rowFilter.storage.created_at"];
           updated_at?: parameters["rowFilter.storage.updated_at"];
           name?: parameters["rowFilter.storage.name"];
-          location?: parameters["rowFilter.storage.location"];
           owner?: parameters["rowFilter.storage.owner"];
+          notes?: parameters["rowFilter.storage.notes"];
+          location?: parameters["rowFilter.storage.location"];
         };
         header: {
           /** Preference */
@@ -927,8 +935,9 @@ export interface paths {
           created_at?: parameters["rowFilter.storage.created_at"];
           updated_at?: parameters["rowFilter.storage.updated_at"];
           name?: parameters["rowFilter.storage.name"];
-          location?: parameters["rowFilter.storage.location"];
           owner?: parameters["rowFilter.storage.owner"];
+          notes?: parameters["rowFilter.storage.notes"];
+          location?: parameters["rowFilter.storage.location"];
         };
         body: {
           /** storage */
@@ -1001,6 +1010,7 @@ export interface definitions {
     open?: boolean;
     notes?: string;
     version?: string;
+    purchase_notes?: string;
   };
   currency: {
     /**
@@ -1059,6 +1069,7 @@ export interface definitions {
     created_at?: string;
     updated_at?: string;
     name: string;
+    user?: string;
   };
   package: {
     /**
@@ -1093,13 +1104,18 @@ export interface definitions {
     id: string;
     created_at?: string;
     updated_at?: string;
-    name?: string;
-    location?: string;
+    name: string;
     /**
      * Note:
      * This is a Foreign Key to `owner.id`.<fk table='owner' column='id'/>
      */
     owner?: string;
+    notes?: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `storage.id`.<fk table='storage' column='id'/>
+     */
+    location?: string;
   };
 }
 
@@ -1150,6 +1166,7 @@ export interface parameters {
   "rowFilter.collection.open": string;
   "rowFilter.collection.notes": string;
   "rowFilter.collection.version": string;
+  "rowFilter.collection.purchase_notes": string;
   /** currency */
   "body.currency": definitions["currency"];
   "rowFilter.currency.id": string;
@@ -1180,6 +1197,7 @@ export interface parameters {
   "rowFilter.owner.created_at": string;
   "rowFilter.owner.updated_at": string;
   "rowFilter.owner.name": string;
+  "rowFilter.owner.user": string;
   /** package */
   "body.package": definitions["package"];
   "rowFilter.package.id": string;
@@ -1199,8 +1217,9 @@ export interface parameters {
   "rowFilter.storage.created_at": string;
   "rowFilter.storage.updated_at": string;
   "rowFilter.storage.name": string;
-  "rowFilter.storage.location": string;
   "rowFilter.storage.owner": string;
+  "rowFilter.storage.notes": string;
+  "rowFilter.storage.location": string;
 }
 
 export interface operations {}
