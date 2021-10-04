@@ -15,6 +15,10 @@ const menuOptions = [
   {
     key: '/user',
     label: 'User'
+  },
+  {
+    key: '/items/add',
+    label: 'Add'
   }
 ]
 

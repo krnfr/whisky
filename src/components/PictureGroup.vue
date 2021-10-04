@@ -200,7 +200,7 @@ mitt.on('update', loadList)
                       <mdi-camera-outline />
                     </n-icon>
                   </div>
-                  <n-text :depth="2">Upload Bilder</n-text>
+                  <n-text :depth="2">Bild hochladen</n-text>
                 </n-space>
               </n-upload-dragger>
               <template #description>Verarbeite Bild</template>
@@ -210,7 +210,7 @@ mitt.on('update', loadList)
       </n-grid>
     </n-image-group>
     <n-space v-if="user.loggedIn" justify="end">
-      <n-button @click="showSelectCover = true">cover</n-button>
+      <n-button @click="showSelectCover = true">Set Cover</n-button>
     </n-space>
     <n-modal v-model:show="showSelectCover">
       <n-card style="width: 85%; height: 65%;" title="Cover auswählen" :bordered="true" size="huge">

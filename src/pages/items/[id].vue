@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import log from 'loglevel'
 import { mitt } from '~/mitt'
 import { useSupabaseStore } from '~/stores/supabase'
 
