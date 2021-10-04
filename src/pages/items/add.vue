@@ -7,7 +7,7 @@ const api = useSupabaseStore()
 const router = useRouter()
 if (!user.loggedIn) router.push('/items')
 
-const current = ref(1) // TODO: set 1
+const current = ref(3) // TODO: set 1
 const previos = ref(0)
 const currentStatus = ref('')
 const working = ref(false) // TODO: set false
@@ -138,28 +138,16 @@ const packagingCondition = ref(0)
       <n-space v-else-if="liquorId > 3">{{ liquorName }}</n-space>
     </n-step>
     <n-step title="Zustand">
-      <n-card v-if="current == 4" class="select">
-        <template #action>
-          <n-space justify="end">
-            <n-button type="success" @click="next">Weiter</n-button>
-          </n-space>
-        </template>
+      <step-card v-if="current == 4" class="step-item" skip @skip="next" :working="working">
         <n-grid cols="2">
           <n-form-item-gi label="Offen">
             <n-switch v-model:value="opened" />
           </n-form-item-gi>
           <n-form-item-gi label="Bewertung Zustand">
-            <n-space align="center">
-              <n-rate v-model:value="condition" :count="10" />
-              <n-button circle :disabled="condition < 1" @click="condition = 0">
-                <n-icon>
-                  <mdi-undo />
-                </n-icon>
-              </n-button>
-            </n-space>
+            <condition-rating v-model:value="condition" />
           </n-form-item-gi>
         </n-grid>
-      </n-card>
+      </step-card>
       <div v-else-if="current > 4">
         <span v-if="opened">Offen</span>
         <span v-if="opened && condition > 0">&nbsp;-&nbsp;</span>

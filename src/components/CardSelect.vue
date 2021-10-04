@@ -55,7 +55,7 @@ function add() {
       </n-space>
     </n-card>
     <n-spin :show="working" v-if="props.addTemplate">
-      <n-card size="small" @click="emit('selected')">
+      <n-card size="small">
         <template #header>
           <n-space size="small" align="stretch">
             <n-icon size="25">

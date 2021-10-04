@@ -17,7 +17,7 @@ watch(
 
 <template>
   <n-space size="small" align="center">
-    <n-rate v-model:value="controlledValue" :count="10" />
+    <n-rate v-model:value="controlledValue" :count="5" />
     <n-button
       v-if="!props.noReset"
       circle
