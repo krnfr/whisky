@@ -7,7 +7,7 @@ const api = useSupabaseStore()
 const router = useRouter()
 if (!user.loggedIn) router.push('/items')
 
-const current = ref(4) // TODO: set 1
+const current = ref(1) // TODO: set 1
 const previos = ref(0)
 const currentStatus = ref('')
 const working = ref(false) // TODO: set false
@@ -65,6 +65,8 @@ function handleLiquorSelected(value: number = 0) {
 
 const opened = ref(false)
 const condition = ref(0)
+const packagingId = ref(null)
+const packagingCondition = ref(0)
 
 </script>
 
@@ -167,7 +169,18 @@ const condition = ref(0)
         </span>
       </div>
     </n-step>
-    <n-step title="Verpackung"></n-step>
+    <n-step title="Verpackung">
+      <step-card v-if="current == 5" skip class="step-item" :working="working" @skip="next">
+        <n-grid cols="2" :x-gap="20">
+          <n-form-item-gi label="Packungsart">
+            <n-select v-model:value="packagingId" :options="api.selectPackages()" clearable />
+          </n-form-item-gi>
+          <n-form-item-gi label="Packungszustand">
+            <condition-rating v-model:value="packagingCondition" />
+          </n-form-item-gi>
+        </n-grid>
+      </step-card>
+    </n-step>
     <n-step title="Info"></n-step>
     <n-step title="Besitzer"></n-step>
     <n-step title="Lagerort"></n-step>
@@ -181,7 +194,8 @@ const condition = ref(0)
   padding-right: 10px;
 }
 
-.select {
+.select,
+.step-item {
   margin-right: 10px;
 }
 </style>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
-import { Category, CollectionItem, Currency, Label, Liquor } from '~/types'
+import { Category, CollectionItem, Currency, Label, Liquor, Package } from '~/types'
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
 
@@ -170,9 +170,36 @@ export const useSupabaseStore = defineStore('supabase', () => {
     })
     return list
   }
-
   /* #endregion */
 
+  /* #region package */
+  const packages = ref(new Array<Package>())
+
+  async function getPackages() {
+    const { data, error } = await supabase
+      .from<Package>('package')
+      .select()
+      .order('name')
+    if (error) {
+      log.error(error.message)
+      message.error(error.message)
+      return packages
+    }
+    packages.value = data ? data : packages.value
+    return packages
+  }
+
+  function selectPackages() {
+    const list = new Array<{ value: number, label: string }>()
+    packages.value.forEach(p => {
+      list.push({
+        value: p.id,
+        label: p.name
+      })
+    })
+    return list
+  }
+  /* #endregion */
 
   async function refresh() {
     if (selectedItem.value?.id) {
@@ -184,6 +211,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getCategories()
     await getLabels()
     await getLiquors()
+    await getPackages()
   }
 
   refresh()
@@ -207,6 +235,9 @@ export const useSupabaseStore = defineStore('supabase', () => {
     liquors,
     getLiquors,
     filterLiqours,
-    selectLiquors
+    selectLiquors,
+    packages,
+    getPackages,
+    selectPackages,
   }
 })

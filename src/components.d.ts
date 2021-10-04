@@ -16,6 +16,7 @@ declare module 'vue' {
     CarbonWarning: typeof import('~icons/carbon/warning')['default']
     CardSelect: typeof import('./components/CardSelect.vue')['default']
     CollectionList: typeof import('./components/CollectionList.vue')['default']
+    ConditionRating: typeof import('./components/ConditionRating.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('~icons/el/config-provider')['default']
     ElContainer: typeof import('~icons/el/container')['default']
@@ -69,6 +70,7 @@ declare module 'vue' {
     NPageHeader: typeof import('naive-ui')['NPageHeader']
     NRate: typeof import('naive-ui')['NRate']
     NResult: typeof import('naive-ui')['NResult']
+    NSelect: typeof import('naive-ui')['NSelect']
     NSkeleton: typeof import('naive-ui')['NSkeleton']
     NSpace: typeof import('naive-ui')['NSpace']
     NSpan: typeof import('naive-ui')['NSpan']
@@ -88,7 +90,9 @@ declare module 'vue' {
     PictureSelect: typeof import('./components/PictureSelect.vue')['default']
     PriceInfo: typeof import('./components/PriceInfo.vue')['default']
     PublicTag: typeof import('./components/PublicTag.vue')['default']
+    Rating: typeof import('./components/Rating.vue')['default']
     README: typeof import('./components/README.md')['default']
+    StepCard: typeof import('./components/StepCard.vue')['default']
     UserLogin: typeof import('./components/UserLogin.vue')['default']
   }
 }
