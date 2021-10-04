@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
-import { Category, CollectionItem, Currency, Label, Liquor, Package } from '~/types'
+import { Category, CollectionItem, Currency, Label, Liquor, Owner, Package } from '~/types'
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
 import { isTemplateNode } from '.pnpm/@vue+compiler-core@3.2.19/node_modules/@vue/compiler-core'
@@ -213,6 +213,35 @@ export const useSupabaseStore = defineStore('supabase', () => {
   }
   /* #endregion */
 
+  /* #region owner */
+  const owners = ref(new Array<Owner>())
+
+  async function getOwners() {
+    const { data, error } = await supabase
+      .from<Owner>('owner')
+      .select()
+      .order('name')
+    if (error) {
+      log.error(error.message)
+      message.error(error.message)
+      return owners
+    }
+    owners.value = data ? data : owners.value
+    return owners
+  }
+
+  function selectOwner() {
+    const list = new Array<{ value: string, label: string }>()
+    owners.value.forEach(p => {
+      list.push({
+        value: p.id,
+        label: p.name
+      })
+    })
+    return list
+  }
+  /* #endregion */
+
   async function refresh() {
     if (selectedItem.value?.id) {
       await getCollectionItem(selectedItem.value.id)
@@ -224,6 +253,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getLabels()
     await getLiquors()
     await getPackages()
+    await getOwners()
   }
 
   refresh()
@@ -252,5 +282,8 @@ export const useSupabaseStore = defineStore('supabase', () => {
     packages,
     getPackages,
     selectPackages,
+    owners,
+    getOwners,
+    selectOwner,
   }
 })

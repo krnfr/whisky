@@ -1,38 +1,41 @@
 <script setup lang="ts">
 
-const emit = defineEmits(['selected', 'add', 'save'])
+const emit = defineEmits(['update:value', 'on-update:value', 'add', 'save', 'skip'])
 const props = defineProps<{
+  value: number | string,
+  options: Array<{ label: string | undefined, value: string | number }>
   add?: boolean,
-  addTemplate?: boolean,
+  simple?: boolean,
   skip?: boolean,
   working?: boolean,
   noUnknown?: boolean,
   unknown?: string,
-  selected?: string | number,
-  list: Array<{ label: string | undefined, value: string | number }>
 }>()
 
 const unknownLabel = props.unknown ? props.unknown : 'Unbekannt'
-
-const value = ref('')
+const newItem = ref('')
 
 const unknownSelected = computed(() => {
-  if (!props.selected) return true
-  if (props.selected == 0 || props.selected == '') return true
+  if (!props.value) return true
+  if (props.value == 0 || props.value == '') return true
   return false
 })
 
-function add() {
-  emit('add', value.value)
-  value.value = ''
+function updateValue(value: number | string = 0) {
+  emit('on-update:value', (value ? value : null))
+  emit('update:value', (value ? value : null))
 }
 
+function add() {
+  emit('add', newItem.value)
+  newItem.value = ''
+}
 </script>
 
 <template>
   <n-space vertical>
-    <n-card hoverable v-if="!noUnknown" size="small" @click="emit('selected')">
-      <n-space justify="space-between" align="stretch">
+    <n-card hoverable v-if="!noUnknown" size="small" @click="updateValue">
+      <n-space justify="space-between" align="center">
         <div>
           <n-text strong>{{ unknownLabel }}</n-text>
         </div>
@@ -41,25 +44,27 @@ function add() {
         </n-icon>
       </n-space>
     </n-card>
+
     <n-card
       hoverable
-      v-for="i in props.list"
+      v-for="i in props.options"
       :key="i.value"
       size="small"
-      @click="emit('selected', i.value)"
+      @click="updateValue(i.value)"
     >
-      <n-space justify="space-between" align="stretch">
+      <n-space justify="space-between" align="center">
         <div>
           <n-text strong>{{ i.label }}</n-text>
         </div>
-        <n-icon v-if="selected == i.value" size="20" color="#0e7a0d">
+        <n-icon v-if="value == i.value" size="20" color="#0e7a0d">
           <mdi-check-circle />
         </n-icon>
       </n-space>
     </n-card>
-    <n-spin :show="working" v-if="props.addTemplate">
+
+    <n-spin :show="working" v-if="props.add">
       <n-card size="small">
-        <template #header>
+        <template v-if="!simple" #header>
           <n-space size="small" align="stretch">
             <n-icon size="25">
               <mdi-add />
@@ -67,23 +72,28 @@ function add() {
             <n-text>Neu</n-text>
           </n-space>
         </template>
-        <template #action>
-          <n-space size="small" justify="end">
-            <n-button :disabled="working" type="success" @click="emit('save')">Speichern</n-button>
-          </n-space>
+        <template v-if="!simple" #action>
+          <slot name="action">
+            <n-space size="small" justify="end">
+              <n-button v-if="skip" type="warning" @click="emit('skip')">Skip</n-button>
+              <n-button :disabled="working" type="success" @click="emit('save')">Speichern</n-button>
+            </n-space>
+          </slot>
         </template>
-        <slot name="add" />
+        <n-grid v-if="simple" cols="2">
+          <n-gi>
+            <n-input v-model:value="newItem" style="width: 100%;" />
+          </n-gi>
+          <n-gi>
+            <n-space justify="end">
+              <n-button v-if="skip" @click="emit('skip')" type="warning">Skip</n-button>
+              <n-button :disabled="working || !newItem" type="success" @click="add">Speichern</n-button>
+            </n-space>
+          </n-gi>
+        </n-grid>
+        <slot v-else />
       </n-card>
     </n-spin>
-
-    <n-space v-if="!props.addTemplate" justify="end">
-      <n-input v-if="props.add" v-model:value="value" />
-      <n-button :disabled="working" v-if="props.add" @click="add" type="primary">
-        <n-spin v-if="working" stroke="white" size="20" />
-        <span v-else>Hinzufügen</span>
-      </n-button>
-      <n-button v-if="props.skip" @click="emit('selected')" type="warning">Skip</n-button>
-    </n-space>
   </n-space>
 </template>
 

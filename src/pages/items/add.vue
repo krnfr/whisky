@@ -7,8 +7,8 @@ const api = useSupabaseStore()
 const router = useRouter()
 if (!user.loggedIn) router.push('/items')
 
-const current = ref(6) // TODO: set 1
-const previos = ref(0)
+const current = ref(1) // TODO: set 1
+const previous = ref(0)
 const currentStatus = ref('')
 const working = ref(false) // TODO: set false
 
@@ -73,68 +73,70 @@ const packagingCondition = ref(0)
 <template>
   <n-page-header title="Hinzufügen" @back="router.back()"></n-page-header>
 
-  <n-steps :current="current" :status="currentStatus" vertical id="steps">
+  <n-steps :current="current" vertical id="steps">
     <n-step title="Kategorie">
-      <n-space v-if="current == 1" vertical class="select">
-        <card-select
-          :list="api.selectCategories()"
-          :selected="categoryId"
-          :working="working"
-          skip
-          add
-          @add="handleCategoryAdd"
-          @selected="handleCategorySelected"
-        />
-      </n-space>
+      <card-select
+        v-if="current == 1"
+        class="step-item"
+        :options="api.selectCategories()"
+        :value="categoryId"
+        :working="working"
+        add
+        simple
+        skip
+        @add="handleCategoryAdd"
+        @skip="next"
+        @on-update:value="handleCategorySelected"
+      />
       <n-space v-else-if="current > 1">{{ categoryName }}</n-space>
     </n-step>
     <n-step title="Label">
-      <n-space v-if="current == 2" vertical class="select">
-        <card-select
-          :list="api.selectLabels()"
-          :selected="labelId"
-          :working="working"
-          skip
-          add
-          @add="handleLabelAdd"
-          @selected="handleLabelSelected"
-        />
-      </n-space>
+      <card-select
+        v-if="current == 2"
+        class="step-item"
+        :options="api.selectLabels()"
+        :value="labelId"
+        :working="working"
+        add
+        simple
+        skip
+        @skip="next"
+        @add="handleLabelAdd"
+        @on-update:value="handleLabelSelected"
+      />
       <n-space v-else-if="current > 2">{{ labelName }}</n-space>
     </n-step>
     <n-step title="Liquor">
-      <n-space v-if="current == 3" vertical class="select">
-        <card-select
-          add-template
-          no-unknown
-          :list="api.selectLiquors(categoryId, labelId)"
-          @selected="handleLiquorSelected"
-          @save="handleLiquorAdd"
-        >
-          <template #add>
-            <n-space vertical>
-              <n-grid cols="2">
-                <n-gi>
-                  <n-space>
-                    <n-form-item label="Kategorie">
-                      <n-tag round>{{ categoryName }}</n-tag>
-                    </n-form-item>
-                    <n-form-item label="Label">
-                      <n-tag round>{{ labelName }}</n-tag>
-                    </n-form-item>
-                  </n-space>
-                </n-gi>
-                <n-form-item-gi label="Name" required>
-                  <n-input />
-                </n-form-item-gi>
-                <n-form-item-gi label="Notizen" :span="2">
-                  <n-input type="textarea" />
-                </n-form-item-gi>
-              </n-grid>
-            </n-space>
-          </template>
-        </card-select>
-      </n-space>
+      <card-select
+        v-if="current == 3"
+        class="step-item"
+        :options="api.selectLiquors(categoryId, labelId)"
+        no-unknown
+        add
+        @save="handleLiquorAdd"
+        @on-update:value="handleLiquorSelected"
+      >
+        <n-space vertical>
+          <n-grid cols="2">
+            <n-gi>
+              <n-space>
+                <n-form-item label="Kategorie">
+                  <n-tag round>{{ categoryName }}</n-tag>
+                </n-form-item>
+                <n-form-item label="Label">
+                  <n-tag round>{{ labelName }}</n-tag>
+                </n-form-item>
+              </n-space>
+            </n-gi>
+            <n-form-item-gi label="Name" required>
+              <n-input />
+            </n-form-item-gi>
+            <n-form-item-gi label="Notizen" :span="2">
+              <n-input type="textarea" />
+            </n-form-item-gi>
+          </n-grid>
+        </n-space>
+      </card-select>
       <n-space v-else-if="liquorId > 3">{{ liquorName }}</n-space>
     </n-step>
     <n-step title="Zustand">
@@ -170,7 +172,7 @@ const packagingCondition = ref(0)
       </step-card>
     </n-step>
     <n-step title="Info">
-      <step-card class="step-item" skip @skip="next" :working="working">
+      <step-card v-if="current == 6" class="step-item" skip @skip="next" :working="working">
         <n-grid cols="2" :x-gap="20">
           <n-form-item-gi label="Kaufort">
             <n-input type="text" />
@@ -195,7 +197,9 @@ const packagingCondition = ref(0)
         </n-grid>
       </step-card>
     </n-step>
-    <n-step title="Besitzer"></n-step>
+    <n-step title="Besitzer">
+      <card-select v-if="current == 7" class="step-item"></card-select>
+    </n-step>
     <n-step title="Lagerort"></n-step>
     <n-step title="Bilder"></n-step>
   </n-steps>

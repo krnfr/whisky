@@ -9,6 +9,7 @@ export type Category = supabase['category']
 export type Label = supabase['label']
 export type Package = supabase['package']
 export type Currency = supabase['currency']
+export type Owner = supabase['owner']
 export type Picture = supabase['picture']
 export type Liquor = supabase['liquor']
 export type CollectionItem = Modify<supabase['collection'], {
