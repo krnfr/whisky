@@ -9,16 +9,28 @@ const router = useRouter()
 const route = useRoute()
 const message = useMessage()
 
-if (route.query.type != 'recovery' && !route.query.access_token) router.push('/user')
+if (!route.hash) router.push('/user')
 
 const passwd = ref('')
 const passwd2 = ref('')
 
+const hashValues = new Map<string, string>()
+const hash = route.hash.substring(1)
+const values = hash.split('&')
+values.forEach((i) => {
+  const value = i.split('=')
+  hashValues.set(value[0], value[1])
+})
+
+if (!hashValues.has('access_token')) {
+  message.error("Fehlender access_token")
+  router.push('/user')
+}
+
 async function reset() {
   if (!passwd.value) return
-  log.debug(`access token: ${route.query.access_token}`)
   const { error, data } = await supabase.auth.api.updateUser(
-    route.query.access_token?.toString(), {
+    hashValues.get('access_token'), {
     password: passwd.value
   })
   if (error) {

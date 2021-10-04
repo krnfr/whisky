@@ -71,8 +71,6 @@ async function handleImages({ file }) {
   let pic: File | Blob = file.file
   let thumb: File | Blob
   async function upload(pic: File | Blob, thumb: File | Blob) {
-    log.debug(pic)
-    log.debug(thumb)
     const { data: dbData, error: dbError } = await supabase
       .from<Picture>('picture')
       .insert({ collection: props.itemId })
@@ -164,7 +162,9 @@ mitt.on('update', loadList)
             :disabled="uploadDisabled"
           >
             <n-spin :show="uploadDisabled">
-              <n-upload-dragger style="height: 150px; width: 200px; padding-top: 40px;">
+              <n-upload-dragger
+                style="height: 150px; width: 100%; padding-top: 40px; max-width: 100%;"
+              >
                 <n-space vertical justify="center" align="center">
                   <div>
                     <n-icon size="25" :depth="2">
@@ -186,7 +186,7 @@ mitt.on('update', loadList)
         </n-gi>
       </n-grid>
     </n-image-group>
-    <n-space justify="end">
+    <n-space v-if="user.loggedIn" justify="end">
       <n-button @click="showSelectCover = true">cover</n-button>
     </n-space>
     <n-modal v-model:show="showSelectCover">

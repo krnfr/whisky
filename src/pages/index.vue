@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useUserStore } from '~/stores/user';
+
+const user = useUserStore()
+</script>
+
 <template>
-  <h1>hello (;</h1>
+  <n-h1>hello (;</n-h1>
 </template>
