@@ -4,6 +4,7 @@ import { supabase, selects } from '../supabase' // eslint-disable-line
 import { Category, CollectionItem, Currency, Label, Liquor, Package } from '~/types'
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
+import { isTemplateNode } from '.pnpm/@vue+compiler-core@3.2.19/node_modules/@vue/compiler-core'
 
 const message = useMessage()
 
@@ -50,6 +51,17 @@ export const useSupabaseStore = defineStore('supabase', () => {
     const { data, error } = await supabase.from<Currency>('currency').select()
     if (error) message.error(error.message)
     return currencies.value = data ? data : currencies.value
+  }
+
+  function selectCurrency() {
+    const list = new Array<{ value: number, label: string }>()
+    currencies.value.forEach(c => {
+      list.push({
+        value: c.id,
+        label: c.symbol
+      })
+    })
+    return list
   }
 
   function getCurrencyById(id: number) {
@@ -224,6 +236,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     selectedItem,
     currencies,
     getCurrencyById,
+    selectCurrency,
     categories,
     selectCategories,
     getCategories,

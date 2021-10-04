@@ -7,7 +7,7 @@ const api = useSupabaseStore()
 const router = useRouter()
 if (!user.loggedIn) router.push('/items')
 
-const current = ref(3) // TODO: set 1
+const current = ref(6) // TODO: set 1
 const previos = ref(0)
 const currentStatus = ref('')
 const working = ref(false) // TODO: set false
@@ -169,7 +169,32 @@ const packagingCondition = ref(0)
         </n-grid>
       </step-card>
     </n-step>
-    <n-step title="Info"></n-step>
+    <n-step title="Info">
+      <step-card class="step-item" skip @skip="next" :working="working">
+        <n-grid cols="2" :x-gap="20">
+          <n-form-item-gi label="Kaufort">
+            <n-input type="text" />
+          </n-form-item-gi>
+          <n-form-item-gi label="Kaudatum">
+            <n-date-picker date clearable />
+          </n-form-item-gi>
+          <n-form-item-gi label="Kaufpreis (in ct, pf etc)">
+            <n-input-group>
+              <n-input-number :show-button="false" min="0" placeholder="in cent oder pfenning" />
+              <n-select
+                style="width: 100px;"
+                :options="api.selectCurrency()"
+                clearable
+                placeholder="€ , DM ..."
+              />
+            </n-input-group>
+          </n-form-item-gi>
+          <n-form-item-gi label="Notizen">
+            <n-input type="textarea" />
+          </n-form-item-gi>
+        </n-grid>
+      </step-card>
+    </n-step>
     <n-step title="Besitzer"></n-step>
     <n-step title="Lagerort"></n-step>
     <n-step title="Bilder"></n-step>

@@ -7,9 +7,12 @@ const props = defineProps<{
   skip?: boolean,
   working?: boolean,
   noUnknown?: boolean,
+  unknown?: string,
   selected?: string | number,
   list: Array<{ label: string | undefined, value: string | number }>
 }>()
+
+const unknownLabel = props.unknown ? props.unknown : 'Unbekannt'
 
 const value = ref('')
 
@@ -31,7 +34,7 @@ function add() {
     <n-card hoverable v-if="!noUnknown" size="small" @click="emit('selected')">
       <n-space justify="space-between" align="stretch">
         <div>
-          <n-text strong>Unbekannt</n-text>
+          <n-text strong>{{ unknownLabel }}</n-text>
         </div>
         <n-icon v-if="unknownSelected" size="20" color="#0e7a0d">
           <mdi-check-circle />
