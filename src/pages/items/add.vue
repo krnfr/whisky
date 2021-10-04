@@ -36,7 +36,21 @@ async function handleCategoryAdd(name: string) {
 }
 
 const labelId = ref(0)
-
+const labelName = computed(() => {
+  const l = api.labels.find(i => i.id == labelId.value)
+  if (!l) return 'Unbekannt'
+  return l.name
+})
+function handleLabelSelected(value: number = 0) {
+  labelId.value = value
+  next()
+}
+async function handleLabelAdd(name: string) {
+  const l = await api.addLabel(name)
+  if (l) {
+    handleCategorySelected(l.id)
+  }
+}
 </script>
 
 <template>
@@ -47,17 +61,27 @@ const labelId = ref(0)
       <n-space v-if="current == 1" vertical class="select">
         <card-select
           :list="api.selectCategories()"
+          skip
           add
           @add="handleCategoryAdd"
           @selected="handleCategorySelected"
           :selected="categoryId"
         />
       </n-space>
-      <n-space v-else-if="categoryId > 0">{{ categoryName }}</n-space>
+      <n-space v-else>{{ categoryName }}</n-space>
     </n-step>
     <n-step title="Label">
-      <n-space v-if="current == 2">testo</n-space>
-      <n-space v-else-if="labelId > 0">{{ labelId }}</n-space>
+      <n-space v-if="current == 2" vertical class="select">
+        <card-select
+          :list="api.selectLabels()"
+          skip
+          add
+          @add="handleLabelAdd"
+          @selected="handleLabelSelected"
+          :selected="labelId"
+        />
+      </n-space>
+      <n-space v-else>{{ labelName }}</n-space>
     </n-step>
     <n-step title="Liquor"></n-step>
     <n-step title="Zustand"></n-step>

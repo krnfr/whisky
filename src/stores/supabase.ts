@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
-import { Category, CollectionItem, Currency } from '~/types'
+import { Category, CollectionItem, Currency, Label } from '~/types'
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
 
@@ -96,6 +96,45 @@ export const useSupabaseStore = defineStore('supabase', () => {
   }
   /* #endregion */
 
+  /* #region label */
+  const labels = ref(new Array<Label>())
+
+  function selectLabels() {
+    const list = new Array<{ value: number, label: string | undefined }>()
+    labels.value.forEach(c => {
+      list.push({ label: c.name, value: c.id })
+    })
+    return list
+  }
+
+  async function getLabels() {
+    const { data, error } = await supabase
+      .from<Label>('label')
+      .select()
+      .order('name')
+    if (error) {
+      log.error(error.message)
+      return labels
+    }
+    labels.value = data ? data : labels.value
+    return labels
+  }
+
+  async function addLabel(name: string) {
+    const { data, error } = await supabase
+      .from<Label>('label')
+      .insert({ name: name })
+      .single()
+    if (error) {
+      console.error(error.message)
+      message.error(error.message)
+      return
+    }
+    await getLabels()
+    return data
+  }
+  /* #endregion */
+
   async function refresh() {
     if (selectedItem.value?.id) {
       await getCollectionItem(selectedItem.value.id)
@@ -104,6 +143,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getCollection()
     await getCurrencies()
     await getCategories()
+    await getLabels()
   }
 
   refresh()
@@ -120,5 +160,9 @@ export const useSupabaseStore = defineStore('supabase', () => {
     selectCategories,
     getCategories,
     addCategory,
+    labels,
+    selectLabels,
+    getLabels,
+    addLabel
   }
 })

@@ -23,7 +23,10 @@ mitt.on('update', refresh)
 
 <template>
   <div v-if="!loading && api.selectedItem">
-    <n-page-header :title="api.selectedItem.liquor.name" @back="router.back()">
+    <n-page-header
+      :title="api.selectedItem.liquor.name + (api.selectedItem.version ? ' - ' + api.selectedItem.version : '')"
+      @back="router.back()"
+    >
       <template #subtitle v-if="api.selectedItem.liquor.label">
         {{
           api.selectedItem.liquor.label.name

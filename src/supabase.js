@@ -18,6 +18,7 @@ export const selects = {
         open,
         notes,
         year,
+        version,
         owner (
           id,
           name

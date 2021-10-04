@@ -129,6 +129,7 @@ export interface paths {
           owner?: parameters["rowFilter.collection.owner"];
           open?: parameters["rowFilter.collection.open"];
           notes?: parameters["rowFilter.collection.notes"];
+          version?: parameters["rowFilter.collection.version"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -196,6 +197,7 @@ export interface paths {
           owner?: parameters["rowFilter.collection.owner"];
           open?: parameters["rowFilter.collection.open"];
           notes?: parameters["rowFilter.collection.notes"];
+          version?: parameters["rowFilter.collection.version"];
         };
         header: {
           /** Preference */
@@ -227,6 +229,7 @@ export interface paths {
           owner?: parameters["rowFilter.collection.owner"];
           open?: parameters["rowFilter.collection.open"];
           notes?: parameters["rowFilter.collection.notes"];
+          version?: parameters["rowFilter.collection.version"];
         };
         body: {
           /** collection */
@@ -449,6 +452,8 @@ export interface paths {
           category?: parameters["rowFilter.liquor.category"];
           name?: parameters["rowFilter.liquor.name"];
           cover?: parameters["rowFilter.liquor.cover"];
+          version?: parameters["rowFilter.liquor.version"];
+          notes?: parameters["rowFilter.liquor.notes"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -506,6 +511,8 @@ export interface paths {
           category?: parameters["rowFilter.liquor.category"];
           name?: parameters["rowFilter.liquor.name"];
           cover?: parameters["rowFilter.liquor.cover"];
+          version?: parameters["rowFilter.liquor.version"];
+          notes?: parameters["rowFilter.liquor.notes"];
         };
         header: {
           /** Preference */
@@ -527,6 +534,8 @@ export interface paths {
           category?: parameters["rowFilter.liquor.category"];
           name?: parameters["rowFilter.liquor.name"];
           cover?: parameters["rowFilter.liquor.cover"];
+          version?: parameters["rowFilter.liquor.version"];
+          notes?: parameters["rowFilter.liquor.notes"];
         };
         body: {
           /** liquor */
@@ -991,6 +1000,7 @@ export interface definitions {
     owner?: string;
     open?: boolean;
     notes?: string;
+    version?: string;
   };
   currency: {
     /**
@@ -1037,6 +1047,8 @@ export interface definitions {
      * This is a Foreign Key to `picture.id`.<fk table='picture' column='id'/>
      */
     cover?: string;
+    version?: string;
+    notes?: string;
   };
   owner: {
     /**
@@ -1137,6 +1149,7 @@ export interface parameters {
   "rowFilter.collection.owner": string;
   "rowFilter.collection.open": string;
   "rowFilter.collection.notes": string;
+  "rowFilter.collection.version": string;
   /** currency */
   "body.currency": definitions["currency"];
   "rowFilter.currency.id": string;
@@ -1159,6 +1172,8 @@ export interface parameters {
   "rowFilter.liquor.category": string;
   "rowFilter.liquor.name": string;
   "rowFilter.liquor.cover": string;
+  "rowFilter.liquor.version": string;
+  "rowFilter.liquor.notes": string;
   /** owner */
   "body.owner": definitions["owner"];
   "rowFilter.owner.id": string;

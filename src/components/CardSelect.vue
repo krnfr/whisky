@@ -3,6 +3,7 @@
 const emit = defineEmits(['selected', 'add'])
 const props = defineProps<{
   add?: boolean,
+  skip?: boolean,
   noUnknown?: boolean,
   selected?: string | number,
   list: Array<{ label: string | undefined, value: string | number }>
@@ -54,6 +55,7 @@ function add() {
     <n-space v-if="props.add" justify="end">
       <n-input v-model:value="value" />
       <n-button @click="add" type="primary">Hinzufügen</n-button>
+      <n-button v-if="props.skip" @click="emit('selected')" type="warning">Skip</n-button>
     </n-space>
   </n-space>
 </template>
