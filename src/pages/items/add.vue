@@ -67,6 +67,7 @@ const opened = ref(false)
 const condition = ref(0)
 const packagingId = ref(null)
 const packagingCondition = ref(0)
+const ownerId = ref('')
 
 </script>
 
@@ -198,7 +199,17 @@ const packagingCondition = ref(0)
       </step-card>
     </n-step>
     <n-step title="Besitzer">
-      <card-select v-if="current == 7" class="step-item"></card-select>
+      <card-select
+        v-if="current == 7"
+        class="step-item"
+        :options="api.selectOwner()"
+        :value="ownerId"
+        add
+        simple
+        skip
+        @skip="next"
+        @on-update:value="handleOwnerSelected"
+      />
     </n-step>
     <n-step title="Lagerort"></n-step>
     <n-step title="Bilder"></n-step>
