@@ -1,8 +1,9 @@
 <script setup lang="ts">
 
-const emit = defineEmits(['selected', 'add'])
+const emit = defineEmits(['selected', 'add', 'save'])
 const props = defineProps<{
   add?: boolean,
+  addTemplate?: boolean,
   skip?: boolean,
   noUnknown?: boolean,
   selected?: string | number,
@@ -27,7 +28,7 @@ function add() {
 <template>
   <n-space vertical>
     <n-card hoverable v-if="!noUnknown" size="small" @click="emit('selected')">
-      <n-space justify="space-between">
+      <n-space justify="space-between" align="stretch">
         <div>
           <n-text strong>Unbekannt</n-text>
         </div>
@@ -43,7 +44,7 @@ function add() {
       size="small"
       @click="emit('selected', i.value)"
     >
-      <n-space justify="space-between">
+      <n-space justify="space-between" align="stretch">
         <div>
           <n-text strong>{{ i.label }}</n-text>
         </div>
@@ -52,9 +53,25 @@ function add() {
         </n-icon>
       </n-space>
     </n-card>
-    <n-space v-if="props.add" justify="end">
-      <n-input v-model:value="value" />
-      <n-button @click="add" type="primary">Hinzufügen</n-button>
+    <n-card v-if="props.addTemplate" size="small" @click="emit('selected')">
+      <template #header>
+        <n-space size="small" align="stretch">
+          <n-icon size="25">
+            <mdi-add />
+          </n-icon>
+          <n-text>Neu</n-text>
+        </n-space>
+      </template>
+      <template #action>
+        <n-space size="small" justify="end">
+          <n-button type="success" @click="emit('save')">Speichern</n-button>
+        </n-space>
+      </template>
+      <slot name="add" />
+    </n-card>
+    <n-space v-if="!props.addTemplate" justify="end">
+      <n-input v-if="props.add" v-model:value="value" />
+      <n-button v-if="props.add" @click="add" type="primary">Hinzufügen</n-button>
       <n-button v-if="props.skip" @click="emit('selected')" type="warning">Skip</n-button>
     </n-space>
   </n-space>

@@ -7,7 +7,7 @@ const api = useSupabaseStore()
 const router = useRouter()
 if (!user.loggedIn) router.push('/items')
 
-const current = ref(1)
+const current = ref(3) // TODO: set to 1
 const previos = ref(0)
 const currentStatus = ref('')
 
@@ -68,7 +68,7 @@ async function handleLabelAdd(name: string) {
           :selected="categoryId"
         />
       </n-space>
-      <n-space v-else>{{ categoryName }}</n-space>
+      <n-space v-else-if="current > 1">{{ categoryName }}</n-space>
     </n-step>
     <n-step title="Label">
       <n-space v-if="current == 2" vertical class="select">
@@ -81,9 +81,34 @@ async function handleLabelAdd(name: string) {
           :selected="labelId"
         />
       </n-space>
+      <n-space v-else-if="current > 2">{{ labelName }}</n-space>
+    </n-step>
+    <n-step title="Liquor">
+      <n-space v-if="current == 3" vertical class="select">
+        <card-select add-template no-unknown :list="api.selectLiquors(categoryId, labelId)">
+          <template #add>
+            <n-space vertical>
+              <n-space align="stretch">
+                <n-text strong>Kategorie:</n-text>
+                <n-tag round>{{ categoryName }}</n-tag>
+                <n-text strong>Label:</n-text>
+                <n-tag round>{{ labelName }}</n-tag>
+              </n-space>
+              <n-grid cols="2">
+                <n-form-item-gi label="Name" required>
+                  <n-input />
+                </n-form-item-gi>
+                <n-gi />
+                <n-form-item-gi label="Notizen" :span="2">
+                  <n-input type="textarea" />
+                </n-form-item-gi>
+              </n-grid>
+            </n-space>
+          </template>
+        </card-select>
+      </n-space>
       <n-space v-else>{{ labelName }}</n-space>
     </n-step>
-    <n-step title="Liquor"></n-step>
     <n-step title="Zustand"></n-step>
     <n-step title="Verpackung"></n-step>
     <n-step title="Info"></n-step>

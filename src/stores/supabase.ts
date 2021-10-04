@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
-import { Category, CollectionItem, Currency, Label } from '~/types'
+import { Category, CollectionItem, Currency, Label, Liquor } from '~/types'
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
 
@@ -135,6 +135,45 @@ export const useSupabaseStore = defineStore('supabase', () => {
   }
   /* #endregion */
 
+  /* #region liquor */
+  const liquors = ref(new Array<Liquor>())
+
+  async function getLiquors() {
+    const { data, error } = await supabase
+      .from<Liquor>('liquor')
+      .select()
+      .order('name')
+    if (error) {
+      console.error(error.message)
+      message.error(error.message)
+      return liquors
+    }
+    liquors.value = data ? data : liquors.value
+    return liquors
+  }
+
+  function filterLiqours(categoryId: number = 0, labelId: number = 0) {
+    return liquors.value.filter(l => {
+      if (categoryId > 0 && l.category != categoryId) return false
+      if (labelId > 0 && l.label != labelId) return false
+      return true
+    })
+  }
+
+  function selectLiquors(categoryId: number = 0, labelId: number = 0) {
+    const list = new Array<{ value: number, label: string | undefined }>()
+    filterLiqours(categoryId = categoryId, labelId = labelId).forEach(l => {
+      list.push({
+        value: l.id,
+        label: l.name
+      })
+    })
+    return list
+  }
+
+  /* #endregion */
+
+
   async function refresh() {
     if (selectedItem.value?.id) {
       await getCollectionItem(selectedItem.value.id)
@@ -144,6 +183,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getCurrencies()
     await getCategories()
     await getLabels()
+    await getLiquors()
   }
 
   refresh()
@@ -163,6 +203,10 @@ export const useSupabaseStore = defineStore('supabase', () => {
     labels,
     selectLabels,
     getLabels,
-    addLabel
+    addLabel,
+    liquors,
+    getLiquors,
+    filterLiqours,
+    selectLiquors
   }
 })
