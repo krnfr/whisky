@@ -12,7 +12,11 @@ export const selects = {
     cover,
     public,
     purchase_price,
-    purchase_currency,
+    purchase_currency (
+      id,
+      symbol,
+      to_eur
+    ),
     purchase_date,
     purchase_location,
     open,

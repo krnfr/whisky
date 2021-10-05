@@ -16,6 +16,7 @@ export type Storage = Modify<supabase['storage'], {
     location?: Storage
 }>
 export type CollectionItem = Modify<supabase['collection'], {
-    liquor: Liquor
+    liquor: Liquor,
+    purchase_currency: Currency
 }>
 

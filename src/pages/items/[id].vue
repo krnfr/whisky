@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { mitt } from '~/mitt'
 import { useSupabaseStore } from '~/stores/supabase'
+import InflationStatistic from '~/components/InflationStatistic.vue'
 
 const props = defineProps<{ id: string }>()
 const api = useSupabaseStore()
@@ -45,25 +46,30 @@ mitt.on('update', refresh)
       </n-space>
     </n-page-header>
     <n-space vertical>
-      <n-space>
-        <n-statistic
-          v-if="api.selectedItem.purchase_date"
-          label="Kaufdatum"
-          :value="api.selectedItem.purchase_date"
-        />
-        <n-statistic
-          v-if="api.selectedItem.purchase_location"
-          label="Kaufort"
-          :value="api.selectedItem.purchase_location"
-        />
-        <n-statistic v-if="api.selectedItem.purchase_price" label="Kaufpreis">
-          <price-info
-            convert
+      <n-grid cols="3">
+        <n-gi v-if="api.selectedItem.purchase_date">
+          <n-statistic label="Kaufdatum" :value="api.selectedItem.purchase_date" />
+        </n-gi>
+        <n-gi v-if="api.selectedItem.purchase_location">
+          <n-statistic label="Kaufort" :value="api.selectedItem.purchase_location" />
+        </n-gi>
+        <n-gi v-if="api.selectedItem.purchase_price">
+          <n-statistic label="Kaufpreis">
+            <price-info
+              convert
+              :value="api.selectedItem.purchase_price"
+              :currency="api.selectedItem.purchase_currency"
+            />
+          </n-statistic>
+        </n-gi>
+        <n-gi v-if="api.selectedItem.purchase_price && api.selectedItem.purchase_date">
+          <inflation-statistic
             :value="api.selectedItem.purchase_price"
+            :date="api.selectedItem.purchase_date"
             :currency="api.selectedItem.purchase_currency"
           />
-        </n-statistic>
-      </n-space>
+        </n-gi>
+      </n-grid>
       <picture-group upload :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
     </n-space>
   </div>
