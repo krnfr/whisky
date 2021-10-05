@@ -42,7 +42,7 @@ export const createApp = ViteSSG(
         Vue: ctx.app,
         dsn: String(import.meta.env.VITE_SENTRY_DNS),
         integrations: [new Integrations.BrowserTracing({
-          routingInstrumentation: Sentry.vueRouterInstrumentation(ctx.router),
+          // routingInstrumentation: Sentry.vueRouterInstrumentation(ctx.router),
         })],
         // We recommend adjusting this value in production, or using tracesSampler
         // for finer control
