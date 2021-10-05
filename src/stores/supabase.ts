@@ -263,6 +263,20 @@ export const useSupabaseStore = defineStore('supabase', () => {
     })
     return list
   }
+
+  async function addOwner(name: string) {
+    const { data, error } = await supabase
+      .from<Owner>('owner')
+      .insert({ name: name })
+      .single()
+    if (error) {
+      log.error(error)
+      message.error(error.message)
+      return null
+    }
+    await getOwners()
+    return data
+  }
   /* #endregion */
 
   /* #region storage */
@@ -294,18 +308,21 @@ export const useSupabaseStore = defineStore('supabase', () => {
     return list
   }
 
-  async function addStorage(name: string, location = '', owner = '', notes = '') {
+  async function addStorage({ name, location, notes, owner }: { name: string; location: string; notes: string; owner: string }) {
     const { data, error } = await supabase
-      .from('storage')
+      .from<Storage>('storage')
       .insert({
         name: name,
+        notes: notes ? notes : null,
         location: location ? location : null,
         owner: owner ? owner : null,
-        notes: notes ? notes : null
-      }).single()
+      })
+      .single()
+    log.debug(error)
+    log.debug(data)
     if (error) {
-      log.error(error.message)
-      log.error(error.message)
+      log.error(error)
+      message.error(error.message)
       return null
     }
     await getStorage()
@@ -361,6 +378,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     owners,
     getOwners,
     selectOwner,
+    addOwner,
     storage,
     getStorage,
     selectStorage,

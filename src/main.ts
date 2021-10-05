@@ -2,6 +2,7 @@
 import { ViteSSG } from 'vite-ssg'
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
+import VueScrollTo from 'vue-scrollto'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
 import log from 'loglevel'
@@ -31,18 +32,24 @@ export const createApp = ViteSSG(
   (ctx) => {
     // install all modules under `modules/`
     Object.values(import.meta.globEager('./modules/*.ts')).map(i => i.install?.(ctx))
+
+    ctx.app.use(VueScrollTo)
+
+    if (import.meta.env.PROD) {
+      log.setLevel('error')
+
+      Sentry.init({
+        Vue: ctx.app,
+        dsn: String(import.meta.env.VITE_SENTRY_DNS),
+        integrations: [new Integrations.BrowserTracing({
+          routingInstrumentation: Sentry.vueRouterInstrumentation(ctx.router),
+        })],
+        // We recommend adjusting this value in production, or using tracesSampler
+        // for finer control
+        tracesSampleRate: 1.0,
+      })
+    }
   },
 )
 
-if (import.meta.env.PROD) {
-  log.setLevel('error')
-  Sentry.init({
-    createApp,
-    dsn: import.meta.env.VITE_SENTRY_DNS,
-    integrations: [new Integrations.BrowserTracing()],
-    version: import.meta.env.BUILD_ID,
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0,
-  })
-}
+

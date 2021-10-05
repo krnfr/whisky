@@ -131,6 +131,7 @@ export interface paths {
           notes?: parameters["rowFilter.collection.notes"];
           version?: parameters["rowFilter.collection.version"];
           purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
+          storage?: parameters["rowFilter.collection.storage"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -200,6 +201,7 @@ export interface paths {
           notes?: parameters["rowFilter.collection.notes"];
           version?: parameters["rowFilter.collection.version"];
           purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
+          storage?: parameters["rowFilter.collection.storage"];
         };
         header: {
           /** Preference */
@@ -233,6 +235,7 @@ export interface paths {
           notes?: parameters["rowFilter.collection.notes"];
           version?: parameters["rowFilter.collection.version"];
           purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
+          storage?: parameters["rowFilter.collection.storage"];
         };
         body: {
           /** collection */
@@ -1011,6 +1014,11 @@ export interface definitions {
     notes?: string;
     version?: string;
     purchase_notes?: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `storage.id`.<fk table='storage' column='id'/>
+     */
+    storage?: string;
   };
   currency: {
     /**
@@ -1167,6 +1175,7 @@ export interface parameters {
   "rowFilter.collection.notes": string;
   "rowFilter.collection.version": string;
   "rowFilter.collection.purchase_notes": string;
+  "rowFilter.collection.storage": string;
   /** currency */
   "body.currency": definitions["currency"];
   "rowFilter.currency.id": string;

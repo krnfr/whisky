@@ -43,6 +43,15 @@ export const selects = {
         id,
         name
       )
+    ),
+    storage (
+      id,
+      name,
+      notes,
+      location (
+        id,
+        name
+      )
     )
     `,
   storage: `

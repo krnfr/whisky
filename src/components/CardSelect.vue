@@ -1,12 +1,13 @@
 <script setup lang="ts">
 
-const emit = defineEmits(['update:value', 'on-update:value', 'add', 'save', 'skip'])
+const emit = defineEmits(['update:value', 'on-update:value', 'skip', 'add', 'continue'])
 const props = defineProps<{
   options: Array<{ label: string | undefined, value: string | number, sublabel?: string | undefined | null }>
   value?: number | string,
   add?: boolean,
   simple?: boolean,
   skip?: boolean,
+  next?: boolean,
   working?: boolean,
   noUnknown?: boolean,
   unknown?: string,
@@ -26,7 +27,7 @@ function updateValue(value: number | string = 0) {
   emit('update:value', (value ? value : null))
 }
 
-function add() {
+function addItem() {
   emit('add', newItem.value)
   newItem.value = ''
 }
@@ -63,7 +64,7 @@ function add() {
       </n-space>
     </n-card>
 
-    <n-spin :show="working" v-if="props.add">
+    <n-spin :show="working" v-if="add">
       <n-card size="small">
         <template v-if="!simple" #header>
           <n-space size="small" align="stretch">
@@ -76,8 +77,14 @@ function add() {
         <template v-if="!simple" #action>
           <slot name="action">
             <n-space size="small" justify="end">
-              <n-button v-if="skip" type="warning" @click="emit('skip')">Skip</n-button>
-              <n-button :disabled="working" type="success" @click="emit('save')">Speichern</n-button>
+              <n-button v-if="skip" :disabled="working" @click="emit('skip')" type="warning">Skip</n-button>
+              <n-button :disabled="working" @click="addItem" type="info">Hinzufügen</n-button>
+              <n-button
+                v-if="next"
+                :disabled="working"
+                @click="emit('continue')"
+                type="success"
+              >Weiter</n-button>
             </n-space>
           </slot>
         </template>
@@ -87,8 +94,14 @@ function add() {
           </n-gi>
           <n-gi>
             <n-space justify="end">
-              <n-button v-if="skip" @click="emit('skip')" type="warning">Skip</n-button>
-              <n-button :disabled="working || !newItem" type="success" @click="add">Speichern</n-button>
+              <n-button v-if="skip" :disabled="working" @click="emit('skip')" type="warning">Skip</n-button>
+              <n-button :disabled="working" @click="addItem" type="info">Hinzufügen</n-button>
+              <n-button
+                v-if="next"
+                :disabled="working"
+                @click="emit('continue')"
+                type="success"
+              >Weiter</n-button>
             </n-space>
           </n-gi>
         </n-grid>
