@@ -10,7 +10,7 @@ const emit = defineEmits(['selected'])
 </script>
 
 <template>
-  <n-grid cols="3">
+  <n-grid cols="3" :x-gap="10" :y-gap="10">
     <n-gi v-for="pic in list">
       <img :src="pic.src" @click="emit('selected', pic.id)" style="width: 100%;" />
     </n-gi>

@@ -31,6 +31,7 @@ declare module 'vue' {
     InflationStatistic: typeof import('./components/InflationStatistic.vue')['default']
     ItemAvatar: typeof import('./components/ItemAvatar.vue')['default']
     MdiAdd: typeof import('~icons/mdi/add')['default']
+    MdiBottleTonic: typeof import('~icons/mdi/bottle-tonic')['default']
     MdiCameraOutline: typeof import('~icons/mdi/camera-outline')['default']
     MdiCheck: typeof import('~icons/mdi/check')['default']
     MdiCheckCircle: typeof import('~icons/mdi/check-circle')['default']

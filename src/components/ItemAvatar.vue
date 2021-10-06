@@ -11,6 +11,11 @@ const props = defineProps<{
 <template>
   <n-avatar
     v-if="props.item && props.image"
-    :src="supabase.storage.from('pictures').getPublicUrl(`${props.item}/${props.image}.jpg`).publicURL?.toString()"
+    :src="supabase.storage.from('pictures').getPublicUrl(`${props.item}/${props.image}-thumb.jpg`).publicURL?.toString()"
   />
+  <n-avatar v-else>
+    <n-icon>
+      <mdi-bottle-tonic />
+    </n-icon>
+  </n-avatar>
 </template>

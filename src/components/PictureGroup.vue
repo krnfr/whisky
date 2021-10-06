@@ -30,6 +30,7 @@ const props = defineProps<{
   itemId: string,
   upload?: boolean,
   cover?: string,
+  setCover?: boolean
 }>()
 
 async function loadList() {
@@ -165,7 +166,7 @@ mitt.on('update', loadList)
   <n-space vertical>
     <n-image-group>
       <n-grid cols="2 s:3 m:4 l:5 xl:6 2xl:7" :x-gap="10" :y-gap="10">
-        <n-gi v-if="user.loggedIn && !cover" class="gi">
+        <n-gi v-if="user.loggedIn && !cover && setCover" class="gi">
           <n-button
             dashed
             type="warning"
@@ -197,9 +198,9 @@ mitt.on('update', loadList)
               <n-button
                 @click="handleClick"
                 :disabled="uploadDisabled"
+                v-bind:class="{ 'w-full': true, 'h-full': !cover, 'h-2/3': cover }"
                 dashed
                 size="large"
-                class="w-full h-2/3"
               >
                 <n-space vertical justify="center">
                   <n-spin v-if="uploadDisabled" />
@@ -219,7 +220,7 @@ mitt.on('update', loadList)
               </n-button>
             </n-upload-trigger>
           </n-upload>
-          <div class="h-1/3 pt-2">
+          <div class="h-1/3 pt-2" v-if="cover">
             <n-button
               type="info"
               size="large"
