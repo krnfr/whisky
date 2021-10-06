@@ -1,0 +1,6 @@
+{
+	"appId": "net.anetz.whisky",
+	"appName": "Whisky",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

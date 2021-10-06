@@ -14,4 +14,9 @@
   "iconify.includes": [
     "mdi"
   ],
+  "files.exclude": {
+    "android": true,
+    "dist": true,
+    "node_modules": true
+  }
 }
