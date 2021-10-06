@@ -42,7 +42,7 @@ mitt.on('update', refresh)
           size="small"
         >{{ api.selectedItem.liquor.category.name }}</n-tag>
         <public-tag :value="api.selectedItem.public" />
-        <!-- <owner-tag v-if="item.owner" :value="item.owner.id" /> -->
+        <owner-tag :owner-id="api.selectedItem.owner.id" />
       </n-space>
     </n-page-header>
     <n-space vertical>

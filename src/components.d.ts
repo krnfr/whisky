@@ -91,6 +91,7 @@ declare module 'vue' {
     NUploadDrager: typeof import('naive-ui')['NUploadDrager']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     NUploadTrigger: typeof import('naive-ui')['NUploadTrigger']
+    OwnerTag: typeof import('./components/OwnerTag.vue')['default']
     PictureGroup: typeof import('./components/PictureGroup.vue')['default']
     PictureList: typeof import('./components/PictureList.vue')['default']
     PictureSelect: typeof import('./components/PictureSelect.vue')['default']
