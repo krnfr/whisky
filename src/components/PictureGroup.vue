@@ -164,8 +164,16 @@ mitt.on('update', loadList)
 <template>
   <n-space vertical>
     <n-image-group>
-      <n-grid cols="3" :x-gap="10" :y-gap="10">
-        <n-gi v-for="pic in list" :key="pic.id" style="height: 150px; width: 100%;">
+      <n-grid cols="2 s:3 m:4 l:5 xl:6 2xl:7" :x-gap="10" :y-gap="10">
+        <n-gi v-if="user.loggedIn && !cover" class="gi">
+          <n-button
+            dashed
+            type="warning"
+            class="w-full h-full"
+            @click="showSelectCover = true"
+          >Set Cover</n-button>
+        </n-gi>
+        <n-gi v-for="pic in list" :key="pic.id" class="gi">
           <n-image :src="getSrc(pic.id)" object-fit="cover" />
           <n-space align="center" class="image-tags" size="small">
             <n-button v-if="user.loggedIn" @click="handleDelete(pic.id)" size="small" type="error">
@@ -177,19 +185,25 @@ mitt.on('update', loadList)
             <n-tag v-if="pic.candid" size="small" round style="color: green;">candid</n-tag>
           </n-space>
         </n-gi>
-        <n-gi v-if="props.upload && user.loggedIn">
+        <n-gi v-if="props.upload && user.loggedIn" class="gi">
           <n-upload
+            abstract
             :show-file-list="false"
             accept="image/jpeg, image/png;capture=camera"
             @before-upload="handleImages"
             :disabled="uploadDisabled"
           >
-            <n-spin :show="uploadDisabled">
-              <n-upload-dragger
-                style="height: 150px; width: 100%; padding-top: 40px; max-width: 100%;"
+            <n-upload-trigger #="{ handleClick }" abstract>
+              <n-button
+                @click="handleClick"
+                :disabled="uploadDisabled"
+                dashed
+                size="large"
+                class="w-full h-2/3"
               >
-                <n-space vertical justify="center" align="center">
-                  <div>
+                <n-space vertical justify="center">
+                  <n-spin v-if="uploadDisabled" />
+                  <span v-else>
                     <n-icon size="25" :depth="2">
                       <mdi-image-search />
                     </n-icon>
@@ -199,19 +213,24 @@ mitt.on('update', loadList)
                     <n-icon size="25" :depth="2">
                       <mdi-camera-outline />
                     </n-icon>
-                  </div>
+                  </span>
                   <n-text :depth="2">Bild hochladen</n-text>
                 </n-space>
-              </n-upload-dragger>
-              <template #description>Verarbeite Bild</template>
-            </n-spin>
+              </n-button>
+            </n-upload-trigger>
           </n-upload>
+          <div class="h-1/3 pt-2">
+            <n-button
+              type="info"
+              size="large"
+              class="w-full h-full"
+              @click="showSelectCover = true"
+            >Cover</n-button>
+          </div>
         </n-gi>
       </n-grid>
     </n-image-group>
-    <!-- <n-space v-if="user.loggedIn" justify="end">
-      <n-button @click="showSelectCover = true">Set Cover</n-button>
-    </n-space>-->
+
     <n-modal v-model:show="showSelectCover">
       <n-card style="width: 85%; height: 65%;" title="Cover auswählen" :bordered="true" size="huge">
         <picture-select :list="selectList" @selected="(ctx) => setCover(ctx)" />
@@ -231,5 +250,10 @@ mitt.on('update', loadList)
   position: relative;
   top: -150px;
   left: 5px;
+}
+
+.gi {
+  height: 150px;
+  width: 100%;
 }
 </style>
