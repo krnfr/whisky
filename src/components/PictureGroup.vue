@@ -165,7 +165,7 @@ mitt.on('update', loadList)
 <template>
   <n-space vertical>
     <n-image-group>
-      <n-grid cols="2 s: 3 m: 4 l: 5 xl: 6 2xl: 7" :x-gap="10" :y-gap="10">
+      <n-grid cols="2 s:3 m:4 l:5 xl:6 2xl:7" :x-gap="10" :y-gap="10">
         <n-gi v-if="user.loggedIn && !cover && setCover" class="gi">
           <n-button
             dashed

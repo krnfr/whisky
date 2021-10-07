@@ -46,7 +46,7 @@ mitt.on('update', refresh)
       </n-space>
     </n-page-header>
     <n-space vertical>
-      <n-grid cols="2 400:4">
+      <n-grid cols="2 m:4">
         <n-gi v-if="api.selectedItem.purchase_date">
           <n-statistic label="Kaufdatum" :value="api.selectedItem.purchase_date" />
         </n-gi>
