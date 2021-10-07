@@ -63,5 +63,19 @@ export const selects = {
       id,
       name
     )
-    `
+    `,
+  liquor: `
+    id,
+    name,
+    version,
+    notes,
+    cover,
+    category (
+      id,
+      name
+    ),
+    label (
+      id,
+      name
+    )`,
 }

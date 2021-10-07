@@ -16,10 +16,10 @@ const api = useSupabaseStore()
 const message = useMessage()
 const scroll = useVueScrollTo()
 
-const current = ref(1) // TODO: set 1
+const current = ref(1) //! set 1
 const previous = ref(0)
 const currentStatus = ref('')
-const working = ref(false) // TODO: set false
+const working = ref(false) //! set false
 const startWorking = () => working.value = true
 function haveItoStartToWork(ding: any = true): boolean {
   if (ding) {
@@ -66,14 +66,14 @@ const liquorId = ref(0)
 const liquorName = ref('')
 const liquorNotes = ref('')
 async function handleLiquorAdd() {
-  if (!haveItoStartToWork(liquorName.value)) return
+  haveItoStartToWork()
   const l = await api.addLiquor(liquorName.value, categoryId.value, labelId.value, liquorNotes.value)
   if (!l?.id) return
   liquorId.value = l.id
   next()
 }
 
-const itemId = ref('') // TODO: to ''
+const itemId = ref('') //! to ''
 const itemNotes = ref('')
 const itemVersion = ref('')
 const opened = ref(false)
@@ -242,6 +242,7 @@ watch(
           class="step-item"
           v-model:value="liquorId"
           :options="api.selectLiquors(categoryId, labelId)"
+          :label="api.getLabelName(labelId) ?? 'nix'"
           no-unknown
           add
           @add="handleLiquorAdd"
@@ -259,7 +260,7 @@ watch(
                   </n-form-item>
                 </n-space>
               </n-gi>
-              <n-form-item-gi label="Name" required>
+              <n-form-item-gi label="Name">
                 <n-input v-model:value="liquorName" />
               </n-form-item-gi>
               <n-form-item-gi label="Notizen" :span="2">

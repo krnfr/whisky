@@ -14,19 +14,31 @@ export const useSupabaseStore = defineStore('supabase', () => {
 
   async function getCollection() {
     const { data, error } = await supabase.from<CollectionItem>('collection').select(selects.item)
-    if (error) message.error(error.message)
+    if (error) {
+      log.error(error)
+      message.error(error.message)
+      return collection
+    }
     else {
       collection.value = data ? data : collection.value
       return collection.value.sort((a, b) => {
-        var nameA = a.liquor.name.toUpperCase(); // ignore upper and lowercase
-        var nameB = b.liquor.name.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-          return -1;
+        const labelA = a.label?.name.toUpperCase()
+        const liquorA = a.liquor?.name.toUpperCase()
+        const labelB = b.label?.name.toUpperCase()
+        const liquorB = b.liquor?.name.toUpperCase()
+
+        // sort by name
+        if (liquorA && liquorB) {
+          if (liquorA < liquorB) return -1
+          if (liquorA > liquorB) return 1
         }
-        if (nameA > nameB) {
-          return 1;
+        // sort by liquor name
+        if (labelA && labelB) {
+          if (labelA < labelB) return -1
+          if (labelA > labelB) return 1
         }
 
+        // TODO: more sorting
         // names must be equal
         return 0;
       }
@@ -156,10 +168,11 @@ export const useSupabaseStore = defineStore('supabase', () => {
   async function getLiquors() {
     const { data, error } = await supabase
       .from<Liquor>('liquor')
-      .select()
+      .select(selects.liquor)
       .order('name')
+      .order('name', { foreignTable: 'label' })
     if (error) {
-      console.error(error.message)
+      console.error(error)
       message.error(error.message)
       return liquors
     }
@@ -180,17 +193,17 @@ export const useSupabaseStore = defineStore('supabase', () => {
     filterLiqours(categoryId = categoryId, labelId = labelId).forEach(l => {
       list.push({
         value: l.id,
-        label: l.name
+        label: (l.name ? l.name : (l.label?.name ?? 'Unbenannt'))
       })
     })
     return list
   }
 
-  async function addLiquor(name: string, category: number = 0, label: number = 0, notes: string = '') {
+  async function addLiquor(name: string = '', category: number = 0, label: number = 0, notes: string = '') {
     const { data, error } = await supabase
       .from('liquor')
       .insert({
-        name: name,
+        name: name ? name : null,
         category: category ? category : null,
         label: label ? label : null,
         notes: notes ? notes : null

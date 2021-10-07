@@ -11,6 +11,9 @@ const props = defineProps<{
   working?: boolean,
   noUnknown?: boolean,
   unknown?: string,
+  label?: string,
+  filterEmtpyLabel?: boolean,
+  // filterEmptyValue?: boolean
 }>()
 
 const unknownLabel = props.unknown ? props.unknown : 'Unbekannt'
@@ -53,15 +56,18 @@ function addItem() {
       size="small"
       @click="updateValue(i.value)"
     >
-      <n-space justify="space-between" align="center">
-        <div>
-          <n-text strong>{{ i.label }}</n-text>
-          <n-text v-if="i.sublabel" depth="2">&nbsp;- {{ i.sublabel }}</n-text>
-        </div>
-        <n-icon v-if="value == i.value" size="20" color="#0e7a0d">
-          <mdi-check-circle />
-        </n-icon>
-      </n-space>
+      <slot name="content">
+        <n-space justify="space-between" align="center">
+          <div>
+            <n-text v-if="i.label" strong>{{ i.label }}</n-text>
+            <n-text v-else depth="3" strong>{{ (props.label ? props.label : 'kein label') }}</n-text>
+            <n-text v-if="i.sublabel" depth="2">&nbsp;- {{ i.sublabel }}</n-text>
+          </div>
+          <n-icon v-if="value == i.value" size="20" color="#0e7a0d">
+            <mdi-check-circle />
+          </n-icon>
+        </n-space>
+      </slot>
     </n-card>
 
     <n-spin :show="working" v-if="add">
