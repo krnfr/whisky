@@ -78,6 +78,7 @@ const itemNotes = ref('')
 const itemVersion = ref('')
 const opened = ref(false)
 const condition = ref(0)
+const year = ref(null)
 async function handleItemAdd() {
   haveItoStartToWork()
   const { data, error } = await supabase
@@ -88,6 +89,7 @@ async function handleItemAdd() {
       condition: condition.value ?? null,
       notes: itemNotes.value ?? null,
       version: itemVersion.value ?? null,
+      year: year.value ?? null
     })
     .single()
   if (error) {
@@ -280,11 +282,14 @@ watch(
             <n-form-item-gi label="Bewertung Zustand">
               <condition-rating v-model:value="condition" />
             </n-form-item-gi>
-            <n-form-item-gi label="Notizen">
-              <n-input v-model:value="itemNotes" type="textarea" />
-            </n-form-item-gi>
             <n-form-item-gi label="Version">
               <n-input v-model:value="itemVersion" placeholder="V.S.O.P, *** ..." />
+            </n-form-item-gi>
+            <n-form-item-gi label="Jahr">
+              <n-input-number v-model:value="year" :show-button="false" />
+            </n-form-item-gi>
+            <n-form-item-gi label="Notizen">
+              <n-input v-model:value="itemNotes" type="textarea" />
             </n-form-item-gi>
           </n-grid>
         </step-card>
