@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import log from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
-import { Category, CollectionItem, Currency, Label, Liquor, Owner, Package, Storage } from '~/types'
+import { Category, CollectionItem, Currency, Label, Liquor, Owner, Package, Price, Storage } from '~/types'
 import { mitt } from '~/mitt'
 import { useMessage } from 'naive-ui'
 
@@ -343,6 +343,29 @@ export const useSupabaseStore = defineStore('supabase', () => {
   }
   /* #endregion */
 
+  /* #region prices */
+  async function getPrices(id: string) {
+    const { data, error } = await supabase
+      .from<Price>('price')
+      .select()
+      .eq('liquor', id)
+    if (error) {
+      log.error(error)
+      message.error(error.message)
+    } else return data
+  }
+
+  async function getAvgPrice(id: string) {
+    var price = 0
+    const prices = await getPrices(id)
+    if (!prices || prices.length < 1) return null
+
+    prices.forEach(p => { price += p.price })
+    return price = price / prices.length
+  }
+
+  /* #endregion */
+
   async function refresh() {
     if (selectedItem.value?.id) {
       await getCollectionItem(selectedItem.value.id)
@@ -396,5 +419,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     getStorage,
     selectStorage,
     addStorage,
+    getPrices,
+    getAvgPrice,
   }
 })

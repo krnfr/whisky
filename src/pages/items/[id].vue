@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { mitt } from '~/mitt'
+import { useUserStore } from '~/stores/user'
 import { useSupabaseStore } from '~/stores/supabase'
 import InflationStatistic from '~/components/InflationStatistic.vue'
 import ItemBreadcrumb from '~/components/ItemBreadcrumb.vue'
+import PriceList from '~/components/PriceList.vue'
 
 const props = defineProps<{ id: string }>()
+const user = useUserStore()
 const api = useSupabaseStore()
 const router = useRouter()
 
 const loading = ref(true)
+const price = ref(0)
 
 async function refresh() {
   loading.value = true
   await api.getCollectionItem(props.id)
+  await updatePrice()
   loading.value = false
+}
+
+async function updatePrice() {
+  price.value = await api.getAvgPrice(api.selectedItem?.liquor.id)
 }
 
 onMounted(async () => {
@@ -73,6 +82,12 @@ mitt.on('update', refresh)
             :currency="api.selectedItem.purchase_currency"
           />
         </n-gi>
+        <n-gi>
+          <n-statistic label="avg Preis">
+            <n-text v-if="price">{{ price.toFixed(2) }} €</n-text>
+            <n-text v-else depth="3">na</n-text>
+          </n-statistic>
+        </n-gi>
       </n-grid>
       <picture-group upload :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
       <n-grid cols="2 m:3" :y-gap="10" :x-gap="10">
@@ -90,6 +105,14 @@ mitt.on('update', refresh)
           <storage-card :value="api.selectedItem.storage" />
         </n-gi>
       </n-grid>
+      <n-card title="Preise">
+        <template #header-extra v-if="price > 0">~ {{ price.toFixed(2) }} €</template>
+        <price-list
+          :value="api.selectedItem.liquor.id"
+          :add="user.loggedIn"
+          @on-update="updatePrice"
+        />
+      </n-card>
     </n-space>
   </div>
   <div v-else>

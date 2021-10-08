@@ -852,6 +852,108 @@ export interface paths {
       };
     };
   };
+  "/price": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.price.id"];
+          created_at?: parameters["rowFilter.price.created_at"];
+          liquor?: parameters["rowFilter.price.liquor"];
+          price?: parameters["rowFilter.price.price"];
+          notes?: parameters["rowFilter.price.notes"];
+          link?: parameters["rowFilter.price.link"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["price"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** price */
+          price?: definitions["price"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.price.id"];
+          created_at?: parameters["rowFilter.price.created_at"];
+          liquor?: parameters["rowFilter.price.liquor"];
+          price?: parameters["rowFilter.price.price"];
+          notes?: parameters["rowFilter.price.notes"];
+          link?: parameters["rowFilter.price.link"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.price.id"];
+          created_at?: parameters["rowFilter.price.created_at"];
+          liquor?: parameters["rowFilter.price.liquor"];
+          price?: parameters["rowFilter.price.price"];
+          notes?: parameters["rowFilter.price.notes"];
+          link?: parameters["rowFilter.price.link"];
+        };
+        body: {
+          /** price */
+          price?: definitions["price"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/storage": {
     get: {
       parameters: {
@@ -1107,6 +1209,22 @@ export interface definitions {
     collection?: string;
     candid: boolean;
   };
+  price: {
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    created_at?: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `liquor.id`.<fk table='liquor' column='id'/>
+     */
+    liquor: number;
+    price: number;
+    notes?: string;
+    link?: string;
+  };
   storage: {
     /**
      * Note:
@@ -1224,6 +1342,14 @@ export interface parameters {
   "rowFilter.picture.updated_at": string;
   "rowFilter.picture.collection": string;
   "rowFilter.picture.candid": string;
+  /** price */
+  "body.price": definitions["price"];
+  "rowFilter.price.id": string;
+  "rowFilter.price.created_at": string;
+  "rowFilter.price.liquor": string;
+  "rowFilter.price.price": string;
+  "rowFilter.price.notes": string;
+  "rowFilter.price.link": string;
   /** storage */
   "body.storage": definitions["storage"];
   "rowFilter.storage.id": string;

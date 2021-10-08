@@ -11,6 +11,7 @@ export type Package = supabase['package']
 export type Currency = supabase['currency']
 export type Owner = supabase['owner']
 export type Picture = supabase['picture']
+export type Price = supabase['price']
 export type Liquor = Modify<supabase['liquor'], {
     category?: Category | number,
     label?: Label | number
