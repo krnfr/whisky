@@ -242,7 +242,6 @@ watch(
           class="step-item"
           v-model:value="liquorId"
           :options="api.selectLiquors(categoryId, labelId)"
-          :label="api.getLabelName(labelId) ?? 'nix'"
           no-unknown
           add
           @add="handleLiquorAdd"

@@ -16,7 +16,7 @@ const props = defineProps<{
   // filterEmptyValue?: boolean
 }>()
 
-const unknownLabel = props.unknown ? props.unknown : 'Unbekannt'
+const unknownLabel = props.unknown ?? 'Unbekannt'
 const newItem = ref('')
 
 const unknownSelected = computed(() => {

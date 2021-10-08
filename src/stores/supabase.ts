@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import log from 'loglevel'
+import log, { debug } from 'loglevel'
 import { supabase, selects } from '../supabase' // eslint-disable-line
 import { Category, CollectionItem, Currency, Label, Liquor, Owner, Package, Price, Storage } from '~/types'
 import { mitt } from '~/mitt'
@@ -169,8 +169,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     const { data, error } = await supabase
       .from<Liquor>('liquor')
       .select(selects.liquor)
-      .order('name')
-      .order('name', { foreignTable: 'label' })
+      .order('name') // TODO: better ordering
     if (error) {
       console.error(error)
       message.error(error.message)
@@ -181,11 +180,13 @@ export const useSupabaseStore = defineStore('supabase', () => {
   }
 
   function filterLiqours(categoryId: number = 0, labelId: number = 0) {
-    return liquors.value.filter(l => {
-      if (categoryId > 0 && l.category != categoryId) return false
-      if (labelId > 0 && l.label != labelId) return false
-      return true
+    log.debug(`supabase: filter liquors category: ${categoryId}, label: ${labelId}`)
+    const list = liquors.value.filter(l => {
+      if (categoryId && l.category?.id != categoryId) return
+      if (labelId && l.label?.id != labelId) return
+      return l
     })
+    return list
   }
 
   function selectLiquors(categoryId: number = 0, labelId: number = 0) {
@@ -193,7 +194,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     filterLiqours(categoryId = categoryId, labelId = labelId).forEach(l => {
       list.push({
         value: l.id,
-        label: (l.name ? l.name : (l.label?.name ?? 'Unbenannt'))
+        label: (l.name ? l.name : (l.label?.name ?? 'Unbekannt'))
       })
     })
     return list
