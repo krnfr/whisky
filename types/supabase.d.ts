@@ -863,6 +863,7 @@ export interface paths {
           owner?: parameters["rowFilter.storage.owner"];
           notes?: parameters["rowFilter.storage.notes"];
           location?: parameters["rowFilter.storage.location"];
+          full_recorded?: parameters["rowFilter.storage.full_recorded"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -920,6 +921,7 @@ export interface paths {
           owner?: parameters["rowFilter.storage.owner"];
           notes?: parameters["rowFilter.storage.notes"];
           location?: parameters["rowFilter.storage.location"];
+          full_recorded?: parameters["rowFilter.storage.full_recorded"];
         };
         header: {
           /** Preference */
@@ -941,6 +943,7 @@ export interface paths {
           owner?: parameters["rowFilter.storage.owner"];
           notes?: parameters["rowFilter.storage.notes"];
           location?: parameters["rowFilter.storage.location"];
+          full_recorded?: parameters["rowFilter.storage.full_recorded"];
         };
         body: {
           /** storage */
@@ -1124,6 +1127,7 @@ export interface definitions {
      * This is a Foreign Key to `storage.id`.<fk table='storage' column='id'/>
      */
     location?: string;
+    full_recorded?: boolean;
   };
 }
 
@@ -1229,6 +1233,7 @@ export interface parameters {
   "rowFilter.storage.owner": string;
   "rowFilter.storage.notes": string;
   "rowFilter.storage.location": string;
+  "rowFilter.storage.full_recorded": string;
 }
 
 export interface operations {}

@@ -75,7 +75,7 @@ mitt.on('update', refresh)
         </n-gi>
       </n-grid>
       <picture-group upload :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
-      <n-grid cols="3" :y-gap="10" :x-gap="10">
+      <n-grid cols="2 m:3" :y-gap="10" :x-gap="10">
         <n-gi>
           <item-info-card :condition="api.selectedItem.condition" :notes="api.selectedItem.notes" />
         </n-gi>
@@ -85,6 +85,9 @@ mitt.on('update', refresh)
             :condition="api.selectedItem.package_rating"
             :notes="api.selectedItem.pack"
           />
+        </n-gi>
+        <n-gi>
+          <storage-card :value="api.selectedItem.storage" />
         </n-gi>
       </n-grid>
     </n-space>

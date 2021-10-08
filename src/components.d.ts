@@ -92,6 +92,7 @@ declare module 'vue' {
     NSteps: typeof import('naive-ui')['NSteps']
     NSwitch: typeof import('naive-ui')['NSwitch']
     NTag: typeof import('naive-ui')['NTag']
+    NTemplate: typeof import('naive-ui')['NTemplate']
     NText: typeof import('naive-ui')['NText']
     NThing: typeof import('naive-ui')['NThing']
     NUpload: typeof import('naive-ui')['NUpload']
@@ -108,6 +109,7 @@ declare module 'vue' {
     Rating: typeof import('./components/Rating.vue')['default']
     README: typeof import('./components/README.md')['default']
     StepCard: typeof import('./components/StepCard.vue')['default']
+    StorageCard: typeof import('./components/StorageCard.vue')['default']
     UserLogin: typeof import('./components/UserLogin.vue')['default']
   }
 }

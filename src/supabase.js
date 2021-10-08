@@ -12,46 +12,23 @@ export const selects = {
     cover,
     public,
     purchase_price,
-    purchase_currency (
-      id,
-      symbol,
-      to_eur
-    ),
+    purchase_currency (id, symbol, to_eur),
     purchase_date,
     purchase_location,
     open,
     notes,
     year,
     version,
-    owner (
-      id,
-      name
-    ),
+    owner (id, name),
     package_rating,
-    package (
-      id,
-      name
+    package (id,name),
+    liquor (id, name,
+      label (id, name),
+      category (id, name)
     ),
-    liquor (
-      id,
-      name,
-      label (
-        id,
-        name
-      ),
-      category (
-        id,
-        name
-      )
-    ),
-    storage (
-      id,
-      name,
-      notes,
-      location (
-        id,
-        name
-      )
+    storage (id, name, notes,
+      full_recorded,
+      location (id, name)
     )
     `,
   storage: `
@@ -59,6 +36,7 @@ export const selects = {
     name,
     owner,
     notes,
+    full_recorded,
     location (
       id,
       name
