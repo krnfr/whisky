@@ -2,6 +2,7 @@
 import { mitt } from '~/mitt'
 import { useSupabaseStore } from '~/stores/supabase'
 import InflationStatistic from '~/components/InflationStatistic.vue'
+import ItemBreadcrumb from '~/components/ItemBreadcrumb.vue'
 
 const props = defineProps<{ id: string }>()
 const api = useSupabaseStore()
@@ -32,6 +33,9 @@ mitt.on('update', refresh)
         {{
           api.selectedItem.liquor.label.name
         }}
+      </template>
+      <template #header>
+        <item-breadcrumb :value="api.selectedItem.id" />
       </template>
       <template #avatar>
         <item-avatar :item="api.selectedItem.id" :image="api.selectedItem.cover" />
