@@ -15,8 +15,8 @@ const props = defineProps<{
   <n-card :title="'Lager' + (value.name ? ' - ' + value.name : '')">
     <n-thing v-if="value" :title="value.location?.name">
       <template #header-extra>
-        <n-tag v-if="value.full_recorded" type="success" size="small">alles katalogisiert</n-tag>
-        <n-tag v-else type="warning" size="small">nicht alles katalogisiert</n-tag>
+        <n-tag v-if="value.full_recorded" type="success" size="small">katalogisiert</n-tag>
+        <n-tag v-else type="warning" size="small">angefangen</n-tag>
       </template>
       <n-statistic label="Notizen" />
     </n-thing>

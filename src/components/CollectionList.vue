@@ -14,7 +14,7 @@ defineProps<{
     <n-thing
       v-for="i in items"
       :key="i.id"
-      :title="(i.liquor.name ? i.liquor.name : i.liquor.label.name) + (i.version ? ' - ' + i.version : '') + (i.year ? ('(' + i.year + ')') : '')"
+      :title="(i.liquor.name ? i.liquor.name : i.liquor.label.name) + (i.version ? ' - ' + i.version : '') + (i.year ? (' (' + i.year + ')') : '')"
       @click="router.push('/items/' + i.id)"
     >
       <template #avatar>
