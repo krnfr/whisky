@@ -204,10 +204,10 @@ export const useSupabaseStore = defineStore('supabase', () => {
     const { data, error } = await supabase
       .from('liquor')
       .insert({
-        name: name ? name : null,
-        category: category ? category : null,
-        label: label ? label : null,
-        notes: notes ? notes : null
+        name: name ?? null,
+        category: category ?? null,
+        label: label ?? null,
+        notes: notes ?? null
       }).single()
     if (error) {
       log.error(error)
