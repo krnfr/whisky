@@ -15,7 +15,7 @@ const props = defineProps<{
       <n-h1>
         <n-text type="primary">{{ props.package?.name }}</n-text>
       </n-h1>
-      <n-rate read-only size="large" :value="props.condition" />
+      <n-rate readonly size="large" :value="props.condition" />
     </n-space>
     <n-empty v-else description="Keine Packung">
       <template #icon>

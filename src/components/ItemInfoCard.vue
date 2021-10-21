@@ -11,7 +11,7 @@ const props = defineProps<{
 <template>
   <n-card title="Info">
     <n-statistic label="Zustand">
-      <n-rate read-only size="large" :value="condition" />
+      <n-rate readonly size="large" :value="condition" />
     </n-statistic>
     <n-statistic label="Notizen">
       <n-p>{{ props.notes }}</n-p>
