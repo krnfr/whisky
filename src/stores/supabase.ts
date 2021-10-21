@@ -367,6 +367,8 @@ export const useSupabaseStore = defineStore('supabase', () => {
 
   /* #endregion */
 
+  const loading = ref(true)
+
   async function refresh() {
     if (selectedItem.value?.id) {
       await getCollectionItem(selectedItem.value.id)
@@ -380,6 +382,8 @@ export const useSupabaseStore = defineStore('supabase', () => {
     await getPackages()
     await getOwners()
     await getStorage()
+    loading.value = false
+    mitt.emit('finished')
   }
 
   refresh()

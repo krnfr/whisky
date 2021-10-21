@@ -1,8 +1,9 @@
 import mitt from 'mitt'
 
 type Events = {
+    finished?: null,
     update?: string,
-    updatePrice?: number
+    updatePrice?: number,
 };
 
 const emitter = mitt<Events>()
