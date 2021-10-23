@@ -92,11 +92,7 @@ mitt.on('update', refresh)
       <picture-group upload :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
       <n-grid cols="2 m:3" :y-gap="10" :x-gap="10" responsive="screen">
         <n-gi>
-          <item-info-card
-            class="h-full"
-            :condition="api.selectedItem.condition"
-            :notes="api.selectedItem.notes"
-          />
+          <item-info-card class="h-full" :value="api.selectedItem" />
         </n-gi>
         <n-gi>
           <package-card

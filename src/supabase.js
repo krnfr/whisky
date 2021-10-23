@@ -18,6 +18,7 @@ export const selects = {
     open,
     notes,
     year,
+    lot,
     version,
     owner (id, name),
     package_rating,

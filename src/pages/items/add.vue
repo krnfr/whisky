@@ -79,6 +79,7 @@ const itemVersion = ref('')
 const opened = ref(false)
 const condition = ref(0)
 const year = ref(null)
+const lot = ref('')
 async function handleItemAdd() {
   haveItoStartToWork()
   const { data, error } = await supabase
@@ -89,7 +90,8 @@ async function handleItemAdd() {
       condition: condition.value ?? null,
       notes: itemNotes.value ?? null,
       version: itemVersion.value ?? null,
-      year: year.value ?? null
+      year: year.value ?? null,
+      lot: lot.value ?? null
     })
     .single()
   if (error) {
@@ -287,6 +289,9 @@ watch(
             </n-form-item-gi>
             <n-form-item-gi label="Jahr">
               <n-input-number v-model:value="year" :show-button="false" />
+            </n-form-item-gi>
+            <n-form-item-gi label="Lot">
+              <n-input v-model:value="lot" placeholder="lot" />
             </n-form-item-gi>
             <n-form-item-gi label="Notizen">
               <n-input v-model:value="itemNotes" type="textarea" />
