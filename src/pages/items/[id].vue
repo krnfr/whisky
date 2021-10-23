@@ -44,7 +44,7 @@ mitt.on('update', refresh)
         }}
       </template>
       <template #header>
-        <item-breadcrumb :value="api.selectedItem.id" />
+        <item-breadcrumb :value="api.selectedItem.liquor.id" />
       </template>
       <template #avatar>
         <item-avatar :item="api.selectedItem.id" :image="api.selectedItem.cover" />

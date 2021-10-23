@@ -1,44 +1,52 @@
 <script setup lang="ts">
+import { set } from '@vueuse/core'
 import log from 'loglevel'
+import { mitt } from '~/mitt'
 import { useSupabaseStore } from '~/stores/supabase'
 
 const props = defineProps<{
-  value: string
+  value: number
 }>()
 
 const s = useSupabaseStore()
 
-const category = ref('')
-const label = ref('')
-const liquor = ref('')
+const category = ref({ name: 'Unbekannt', id: 0 })
+const label = ref({ name: 'Unbekannt', id: 0 })
+const liquor = ref({ name: 'Unbekannt', id: 0 })
 
 function update() {
   log.debug('breadcrumb: loading ' + props.value)
 
-  const ci = s.collection.find(i => i.id == props.value)
-
-  const li = s.liquors.find(l => l.id == ci?.liquor?.id)
-  liquor.value = li?.name ?? ''
+  const li = s.liquors.find(l => l.id == props.value)
+  if (li) set(liquor, li)
 
   const la = s.labels.find(l => l.id == li?.label?.id)
-  label.value = la?.name ?? ''
+  if (la) set(label, la)
 
   const ca = s.categories.find(c => c.id == li?.category?.id)
-  category.value = ca?.name ?? ''
+  if (ca) set(category, ca)
 }
 
+mitt.on('finished', update)
 watch(
   () => [props.value],
   () => { update() }
 )
-
-update() // TODO: why is it not loading
+update()
 </script>
 
 <template>
   <n-breadcrumb>
-    <n-breadcrumb-item>{{ category }}</n-breadcrumb-item>
-    <n-breadcrumb-item>{{ label }}</n-breadcrumb-item>
-    <n-breadcrumb-item>{{ liquor ? liquor : label }}</n-breadcrumb-item>
+    <n-breadcrumb-item>
+      <router-link :to="'/category/' + (category.id > 0 ? category.id : '')">{{ category?.name }}</router-link>
+    </n-breadcrumb-item>
+    <n-breadcrumb-item>
+      <router-link :to="'/label/' + (label.id > 0 ? label.id : '')">{{ label?.name }}</router-link>
+    </n-breadcrumb-item>
+    <n-breadcrumb-item>
+      <router-link
+        :to="'/liqour/' + (liquor.id > 0 ? liquor.id : '')"
+      >{{ liquor.name ? liquor.name : label.name }}</router-link>
+    </n-breadcrumb-item>
   </n-breadcrumb>
 </template>
