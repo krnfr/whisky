@@ -133,6 +133,8 @@ export interface paths {
           purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
           storage?: parameters["rowFilter.collection.storage"];
           lot?: parameters["rowFilter.collection.lot"];
+          sell?: parameters["rowFilter.collection.sell"];
+          sold?: parameters["rowFilter.collection.sold"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -204,6 +206,8 @@ export interface paths {
           purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
           storage?: parameters["rowFilter.collection.storage"];
           lot?: parameters["rowFilter.collection.lot"];
+          sell?: parameters["rowFilter.collection.sell"];
+          sold?: parameters["rowFilter.collection.sold"];
         };
         header: {
           /** Preference */
@@ -239,6 +243,8 @@ export interface paths {
           purchase_notes?: parameters["rowFilter.collection.purchase_notes"];
           storage?: parameters["rowFilter.collection.storage"];
           lot?: parameters["rowFilter.collection.lot"];
+          sell?: parameters["rowFilter.collection.sell"];
+          sold?: parameters["rowFilter.collection.sold"];
         };
         body: {
           /** collection */
@@ -1128,6 +1134,8 @@ export interface definitions {
      */
     storage?: string;
     lot?: string;
+    sell?: boolean;
+    sold?: boolean;
   };
   currency: {
     /**
@@ -1303,6 +1311,8 @@ export interface parameters {
   "rowFilter.collection.purchase_notes": string;
   "rowFilter.collection.storage": string;
   "rowFilter.collection.lot": string;
+  "rowFilter.collection.sell": string;
+  "rowFilter.collection.sold": string;
   /** currency */
   "body.currency": definitions["currency"];
   "rowFilter.currency.id": string;

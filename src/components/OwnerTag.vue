@@ -17,9 +17,5 @@ function getOwnerName() {
 </script>
 
 <template>
-  <n-tag
-    v-if="ownerId"
-    :size="props.size ?? 'small'"
-    type="error"
-  >{{ (ownerName ?? getOwnerName()) }}</n-tag>
+  <n-tag v-if="ownerId" :size="props.size ?? 'small'">{{ (ownerName ?? getOwnerName()) }}</n-tag>
 </template>

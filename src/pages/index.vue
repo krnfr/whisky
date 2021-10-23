@@ -26,6 +26,7 @@ async function loadExpensive() {
     let { data } = await s.from<CollectionItem>('collection')
       .select(selects.item)
       .eq('liquor', i)
+      .eq('public', true)
     data?.forEach(c => carousel.value.add(c))
   }
 }

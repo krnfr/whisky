@@ -20,6 +20,8 @@ export const selects = {
     year,
     lot,
     version,
+    sell,
+    sold,
     owner (id, name),
     package_rating,
     package (id,name),

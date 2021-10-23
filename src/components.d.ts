@@ -121,6 +121,7 @@ declare module 'vue' {
     PublicTag: typeof import('./components/PublicTag.vue')['default']
     Rating: typeof import('./components/Rating.vue')['default']
     README: typeof import('./components/README.md')['default']
+    SellTag: typeof import('./components/SellTag.vue')['default']
     StepCard: typeof import('./components/StepCard.vue')['default']
     StorageCard: typeof import('./components/StorageCard.vue')['default']
     UserLogin: typeof import('./components/UserLogin.vue')['default']

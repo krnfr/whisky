@@ -5,14 +5,22 @@ import { useSupabaseStore } from '~/stores/supabase'
 import InflationStatistic from '~/components/InflationStatistic.vue'
 import ItemBreadcrumb from '~/components/ItemBreadcrumb.vue'
 import PriceList from '~/components/PriceList.vue'
+import { CollectionItem } from '~/types'
+import log from 'loglevel'
+import { useMessage } from 'naive-ui'
+import { supabase } from '~/supabase'
 
 const props = defineProps<{ id: string }>()
 const user = useUserStore()
 const api = useSupabaseStore()
 const router = useRouter()
+const message = useMessage()
+const s = supabase
 
 const loading = ref(true)
 const price = ref(0)
+
+const item = computed(() => api.selectedItem)
 
 async function refresh() {
   loading.value = true
@@ -23,6 +31,30 @@ async function refresh() {
 
 async function updatePrice() {
   price.value = await api.getAvgPrice(api.selectedItem?.liquor.id)
+}
+
+async function setPublic() {
+  const { error } = await s.from<CollectionItem>('collection')
+    .update({ public: !item.value?.public })
+    .eq('id', item.value?.id)
+  if (error) {
+    log.error(error)
+    message.error(error.message)
+  } else {
+    api.getCollectionItem(item.value?.id)
+  }
+}
+
+async function setSell() {
+  const { error } = await s.from<CollectionItem>('collection')
+    .update({ sell: !item.value?.sell })
+    .eq('id', item.value?.id)
+  if (error) {
+    log.error(error)
+    message.error(error.message)
+  } else {
+    api.getCollectionItem(item.value?.id)
+  }
 }
 
 onMounted(async () => {
@@ -49,13 +81,24 @@ mitt.on('update', refresh)
       <template #avatar>
         <item-avatar :item="api.selectedItem.id" :image="api.selectedItem.cover" />
       </template>
+      <template #extra>
+        <n-space justify="end">
+          <n-button
+            type="error"
+            @click="setSell"
+            v-if="user.loggedIn"
+          >{{ item?.sell ? 'Nicht Verkaufen' : 'Verkaufen' }}</n-button>
+          <!-- <n-button type="info" @click="setPublic">{{ item?.public ? 'private' : 'Öffentlich' }}</n-button> -->
+        </n-space>
+      </template>
       <n-space>
         <n-tag
           v-if="api.selectedItem.liquor.category.name"
           size="small"
         >{{ api.selectedItem.liquor.category.name }}</n-tag>
-        <public-tag :value="api.selectedItem.public" />
         <owner-tag :owner-id="api.selectedItem.owner.id" />
+        <public-tag v-if="user.loggedIn" @click="setPublic" :value="api.selectedItem.public" />
+        <sell-tag :value="item?.sell" />
       </n-space>
     </n-page-header>
     <n-space vertical>
