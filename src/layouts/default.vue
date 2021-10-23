@@ -3,34 +3,36 @@
 
 <template>
   <n-layout position="absolute">
-    <n-layout-header inverted id="header">
-      <n-grid cols="2">
-        <n-gi>
-          <n-space :size="0" justify="start" align="center">
-            <n-h2>
-              <n-text class="title">whalter's whisky's</n-text>
-            </n-h2>
-          </n-space>
-        </n-gi>
-        <n-gi>
-          <n-space justify="end" align="center">
-            <!-- <n-button text>
+    <n-loading-bar-provider>
+      <n-layout-header inverted id="header">
+        <n-grid cols="2">
+          <n-gi>
+            <n-space :size="0" justify="start" align="center">
+              <n-h2>
+                <n-text class="title">whalter's whisky's</n-text>
+              </n-h2>
+            </n-space>
+          </n-gi>
+          <n-gi>
+            <n-space justify="end" align="center">
+              <!-- <n-button text>
               <n-icon>
                 <carbon-refresh />
               </n-icon>
-            </n-button>-->
-          </n-space>
-        </n-gi>
-      </n-grid>
-    </n-layout-header>
-    <n-layout-content position="absolute" id="content">
-      <n-message-provider>
-        <router-view />
-      </n-message-provider>
-    </n-layout-content>
-    <n-layout-footer bordered position="absolute" id="footer">
-      <Footer />
-    </n-layout-footer>
+              </n-button>-->
+            </n-space>
+          </n-gi>
+        </n-grid>
+      </n-layout-header>
+      <n-layout-content position="absolute" id="content">
+        <n-message-provider>
+          <router-view />
+        </n-message-provider>
+      </n-layout-content>
+      <n-layout-footer bordered position="absolute" id="footer">
+        <Footer />
+      </n-layout-footer>
+    </n-loading-bar-provider>
   </n-layout>
 </template>
 

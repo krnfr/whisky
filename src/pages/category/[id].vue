@@ -12,20 +12,26 @@
 </template>
 
 <script setup lang="ts">
+import { set } from '@vueuse/core';
 import { mitt } from '~/mitt';
 import { useSupabaseStore } from '~/stores/supabase';
 
-const props = defineProps<{ id: number }>()
-
 const api = useSupabaseStore()
 
-const item = computed(() => api.labels.find(i => i.id == props.id))
-const list = ref(api.filterLiqours(0, props.id))
+const props = defineProps<{
+  id: number
+}>()
+
+const item = computed(() => api.categories.find(i => i.id == props.id))
+const list = ref(api.filterLiqours(props.id, 0))
 
 function loadList() {
-  list.value = api.filterLiqours(0, props.id)
+  set(list, api.filterLiqours(props.id, 0))
 }
 
 mitt.on('finished', loadList)
 
 </script>
+
+<style scoped>
+</style>
