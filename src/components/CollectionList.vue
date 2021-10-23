@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { supabase } from "~/supabase";
-import { CollectionItem } from "~/types";
+import { CollectionItem } from "~/types"
 
 const router = useRouter()
 
@@ -11,30 +10,34 @@ defineProps<{
 
 <template>
   <n-space vertical>
-    <n-thing
-      v-for="i in items"
-      :key="i.id"
-      :title="(i.liquor.name ? i.liquor.name : i.liquor.label.name) + (i.version ? ' - ' + i.version : '') + (i.year ? (' (' + i.year + ')') : '')"
-      @click="router.push('/items/' + i.id)"
-    >
-      <template #avatar>
-        <item-avatar :item="i.id" :image="i.cover" />
-      </template>
-      <template #header-extra>
-        <n-space justify="end">
-          <n-tag v-if="i.liquor.category?.name" size="small">
-            {{
-              i.liquor.category.name
-            }}
-          </n-tag>
-        </n-space>
-      </template>
-      <template #description v-if="i.liquor.label">
-        {{
-          i.liquor.label.name
-        }}
-      </template>
-      <!-- {{ i.id }} -->
-    </n-thing>
+    <n-grid cols="1 m:3 xl:6" :x-gap="10" :y-gap="10" responsive="screen">
+      <n-gi v-for="i in items">
+        <n-card class="h-full" @click="router.push('/items/' + i.id)">
+          <n-thing
+            :key="i.id"
+            :title="(i.liquor.name ? i.liquor.name : i.liquor.label.name) + (i.version ? ' - ' + i.version : '') + (i.year ? (' (' + i.year + ')') : '')"
+          >
+            <template #avatar>
+              <item-avatar :item="i.id" :image="i.cover" />
+            </template>
+            <template #header-extra>
+              <n-space justify="end">
+                <n-tag v-if="i.liquor.category?.name" size="small">
+                  {{
+                    i.liquor.category.name
+                  }}
+                </n-tag>
+              </n-space>
+            </template>
+            <template #description v-if="i.liquor.label">
+              {{
+                i.liquor.label.name
+              }}
+            </template>
+            <!-- {{ i.id }} -->
+          </n-thing>
+        </n-card>
+      </n-gi>
+    </n-grid>
   </n-space>
 </template>

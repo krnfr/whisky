@@ -59,7 +59,7 @@ mitt.on('update', refresh)
       </n-space>
     </n-page-header>
     <n-space vertical>
-      <n-grid cols="2 m:4">
+      <n-grid cols="2 m:4 xl:6" responsive="screen">
         <n-gi v-if="api.selectedItem.purchase_date">
           <n-statistic label="Kaufdatum" :value="api.selectedItem.purchase_date" />
         </n-gi>
@@ -90,19 +90,24 @@ mitt.on('update', refresh)
         </n-gi>
       </n-grid>
       <picture-group upload :item-id="api.selectedItem.id" :cover="api.selectedItem.cover" />
-      <n-grid cols="2 m:3" :y-gap="10" :x-gap="10">
+      <n-grid cols="2 m:3" :y-gap="10" :x-gap="10" responsive="screen">
         <n-gi>
-          <item-info-card :condition="api.selectedItem.condition" :notes="api.selectedItem.notes" />
+          <item-info-card
+            class="h-full"
+            :condition="api.selectedItem.condition"
+            :notes="api.selectedItem.notes"
+          />
         </n-gi>
         <n-gi>
           <package-card
+            class="h-full"
             :package="api.selectedItem.package"
             :condition="api.selectedItem.package_rating"
             :notes="api.selectedItem.pack"
           />
         </n-gi>
         <n-gi>
-          <storage-card :value="api.selectedItem.storage" />
+          <storage-card class="h-full" :value="api.selectedItem.storage" />
         </n-gi>
       </n-grid>
       <n-card title="Preise">
