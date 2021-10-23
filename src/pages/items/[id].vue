@@ -96,13 +96,13 @@ mitt.on('update', refresh)
           v-if="api.selectedItem.liquor.category.name"
           size="small"
         >{{ api.selectedItem.liquor.category.name }}</n-tag>
-        <owner-tag :owner-id="api.selectedItem.owner.id" />
+        <owner-tag v-if="user.loggedIn" :owner-id="api.selectedItem.owner.id" />
         <public-tag v-if="user.loggedIn" @click="setPublic" :value="api.selectedItem.public" />
         <sell-tag :value="item?.sell" />
       </n-space>
     </n-page-header>
     <n-space vertical>
-      <n-grid cols="2 m:4 xl:6" responsive="screen">
+      <n-grid cols="2 m:4 xl:6" responsive="screen" v-if="user.loggedIn">
         <n-gi v-if="api.selectedItem.purchase_date">
           <n-statistic label="Kaufdatum" :value="api.selectedItem.purchase_date" />
         </n-gi>
@@ -145,7 +145,7 @@ mitt.on('update', refresh)
             :notes="api.selectedItem.pack"
           />
         </n-gi>
-        <n-gi>
+        <n-gi v-if="user.loggedIn">
           <storage-card class="h-full" :value="api.selectedItem.storage" />
         </n-gi>
       </n-grid>

@@ -2,6 +2,7 @@
 import log from 'loglevel';
 import { useMessage } from 'naive-ui';
 import { useSupabaseStore } from '~/stores/supabase';
+import { useUserStore } from '~/stores/user';
 import { supabase } from '~/supabase';
 import { Price } from '~/types';
 
@@ -13,6 +14,7 @@ const props = defineProps<{
 
 const message = useMessage()
 const s = useSupabaseStore()
+const user = useUserStore()
 
 const list = ref(new Array<Price>())
 const working = ref(false)
@@ -77,7 +79,7 @@ onMounted(async () => {
           <n-text v-if="p.notes">{{ p.notes }}</n-text>
         </n-space>
         <n-space justify="end">
-          <n-button text type="error" @click="deletePrice(p.id)">
+          <n-button v-if="user.loggedIn" text type="error" @click="deletePrice(p.id)">
             <n-icon>
               <mdi-delete />
             </n-icon>
