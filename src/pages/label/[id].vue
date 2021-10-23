@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { mitt } from '~/mitt';
 import { useSupabaseStore } from '~/stores/supabase';
 
 const props = defineProps<{ id: number }>()
@@ -20,12 +19,5 @@ const props = defineProps<{ id: number }>()
 const api = useSupabaseStore()
 
 const item = computed(() => api.labels.find(i => i.id == props.id))
-const list = ref(api.filterLiqours(0, props.id))
-
-function loadList() {
-  list.value = api.filterLiqours(0, props.id)
-}
-
-mitt.on('finished', loadList)
-
+const list = computed(() => api.liquors.filter(i => i.label?.id == props.id))
 </script>

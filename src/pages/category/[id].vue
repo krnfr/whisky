@@ -12,8 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { set } from '@vueuse/core';
-import { mitt } from '~/mitt';
 import { useSupabaseStore } from '~/stores/supabase';
 
 const api = useSupabaseStore()
@@ -23,13 +21,7 @@ const props = defineProps<{
 }>()
 
 const item = computed(() => api.categories.find(i => i.id == props.id))
-const list = ref(api.filterLiqours(props.id, 0))
-
-function loadList() {
-  set(list, api.filterLiqours(props.id, 0))
-}
-
-mitt.on('finished', loadList)
+const list = computed(() => api.liquors.filter(i => i.category?.id == props.id))
 
 </script>
 
