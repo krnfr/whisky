@@ -75,13 +75,13 @@ mitt.on('update', refresh)
             />
           </n-statistic>
         </n-gi>
-        <n-gi v-if="api.selectedItem.purchase_price && api.selectedItem.purchase_date">
+        <!-- <n-gi v-if="api.selectedItem.purchase_price && api.selectedItem.purchase_date">
           <inflation-statistic
             :value="api.selectedItem.purchase_price"
             :date="api.selectedItem.purchase_date"
             :currency="api.selectedItem.purchase_currency"
           />
-        </n-gi>
+        </n-gi>-->
         <n-gi>
           <n-statistic label="avg Preis">
             <n-text v-if="price">{{ price.toFixed(2) }} €</n-text>
