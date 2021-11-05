@@ -53,6 +53,13 @@ export const useSupabaseStore = defineStore('supabase', () => {
     log.debug(`loading item:${data.id}`)
     return selectedItem.value = data
   }
+
+  function getItemName(id: string): string {
+    const item = collection.value.find(i => i.id == id)
+    let name = item?.liquor.name ?? item?.liquor.label.name
+    name = 'Unbekannt'
+    return name
+  }
   /* #endregion */
 
   /* #region currency */
@@ -394,6 +401,7 @@ export const useSupabaseStore = defineStore('supabase', () => {
     getCollection,
     getCollectionItem,
     selectedItem,
+    getItemName,
     currencies,
     getCurrencyById,
     selectCurrency,

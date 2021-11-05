@@ -15,6 +15,7 @@ declare module 'vue' {
     CarbonSun: typeof import('~icons/carbon/sun')['default']
     CarbonWarning: typeof import('~icons/carbon/warning')['default']
     CardSelect: typeof import('./components/CardSelect.vue')['default']
+    CategoryTag: typeof import('./components/CategoryTag.vue')['default']
     CollectionList: typeof import('./components/CollectionList.vue')['default']
     ConditionRating: typeof import('./components/ConditionRating.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']

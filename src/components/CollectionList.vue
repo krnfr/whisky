@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMessage } from "naive-ui"
 import { useSupabaseStore } from "~/stores/supabase"
 import { useUserStore } from "~/stores/user"
 import { CollectionItem } from "~/types"
@@ -6,6 +7,7 @@ import { CollectionItem } from "~/types"
 const router = useRouter()
 const user = useUserStore()
 const api = useSupabaseStore()
+const message = useMessage()
 
 const selectedCategory = ref(null)
 const selectedLabel = ref(null)
@@ -24,6 +26,10 @@ const list = computed(() => {
   if (selectedLabel.value) r = r.filter(i => i.liquor?.category?.id == selectedLabel.value)
   return r
 })
+
+function handleWishlist(item: CollectionItem) {
+  message.info(`${api.getItemName(item.id)} hinzugefügt`)
+}
 </script>
 
 <template class="m-5 p-3">
@@ -70,22 +76,25 @@ const list = computed(() => {
               </template>
               <template #header-extra>
                 <n-space justify="end">
-                  <n-text strong>
-                    <n-tag v-if="i.liquor.category?.name">
-                      {{
-                        i.liquor.category.name
-                      }}
-                    </n-tag>
-                  </n-text>
+                  <n-button text @click="handleWishlist(i)">
+                    <n-icon size="24" color="orange">
+                      <mdi-star />
+                    </n-icon>
+                    <n-icon size="24" color="gray">
+                      <mdi-star-outline />
+                    </n-icon>
+                  </n-button>
                 </n-space>
               </template>
               <template #description v-if="i.liquor.label">
-                <n-space>
+                <n-space justify="space-between">
                   <n-text>
                     {{
                       i.liquor.label.name
                     }}
                   </n-text>
+
+                  <category-tag :category="i.liquor.category" />
                 </n-space>
               </template>
               <!-- {{ i.id }} -->

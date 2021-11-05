@@ -13,6 +13,7 @@ export type Owner = supabase['owner']
 export type Picture = supabase['picture']
 export type Price = supabase['price']
 export type Liquor = Modify<supabase['liquor'], {
+    name?: string,
     category?: Category | number,
     label?: Label | number
 }>
@@ -20,8 +21,7 @@ export type Storage = Modify<supabase['storage'], {
     location?: Storage | string
 }>
 export type CollectionItem = Modify<supabase['collection'], {
-    label?: Label | number,
-    liquor?: Liquor | number,
+    liquor: Liquor | number,
     purchase_currency?: Currency | number,
     storage?: Storage | string,
     owner?: Owner | string

@@ -27,7 +27,7 @@ export const selects = {
     package (id,name),
     liquor (id, name,
       label (id, name),
-      category (id, name)
+      category (id, name, color)
     ),
     storage (id, name, notes,
       full_recorded,
@@ -53,7 +53,8 @@ export const selects = {
     cover,
     category (
       id,
-      name
+      name,
+      color
     ),
     label (
       id,
