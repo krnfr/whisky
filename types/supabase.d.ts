@@ -1194,6 +1194,10 @@ export interface definitions {
     created_at?: string;
     updated_at?: string;
     name: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `users.id`.<fk table='users' column='id'/>
+     */
     user?: string;
   };
   package: {

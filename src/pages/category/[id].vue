@@ -1,8 +1,11 @@
 <template>
   <div v-if="item">
-    {{ item.name }}
+    <n-page-header :title="item.name" @back="$router.back()"></n-page-header>
     <n-list>
-      <n-list-item v-for="i in list" @click="$router.push('/liquor/' + i.id)">{{ i.name }}</n-list-item>
+      <n-list-item
+        v-for="i in list"
+        @click="$router.push('/liquor/' + i.id)"
+      >{{ i.name ? i.name + ' - ' + i.label?.name : i.label.name }}</n-list-item>
     </n-list>
   </div>
   <div v-else>

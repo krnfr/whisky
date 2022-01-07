@@ -8,5 +8,7 @@ defineProps<{
 </script>
 
 <template>
-    <n-tag :style="{ color: category.color ? category.color : 'grey' }">{{ category.name }}</n-tag>
+    <n-tag
+        :style="{ color: category?.color ? category?.color : 'grey' }"
+    >{{ category?.name ?? 'unbekannt' }}</n-tag>
 </template>
