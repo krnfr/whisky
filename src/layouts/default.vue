@@ -5,33 +5,25 @@
   <n-layout position="absolute">
     <n-loading-bar-provider>
       <n-layout-header inverted id="header">
-        <n-grid cols="2">
-          <n-gi>
-            <n-space :size="0" justify="start" align="center">
-              <n-h2>
-                <n-text class="title">whalter's whisky's</n-text>
-              </n-h2>
-            </n-space>
-          </n-gi>
-          <n-gi>
-            <n-space justify="end" align="center">
-              <!-- <n-button text>
+        <n-space :size="0" justify="start" align="center">
+          <n-h2>
+            <n-text class="title">whalter's whisky's</n-text>
+          </n-h2>
+          <main-menu id="menu" />
+        </n-space>
+        <n-space justify="end" align="center">
+          <!-- <n-button text>
               <n-icon>
                 <carbon-refresh />
               </n-icon>
-              </n-button>-->
-            </n-space>
-          </n-gi>
-        </n-grid>
+          </n-button>-->
+        </n-space>
       </n-layout-header>
       <n-layout-content position="absolute" id="content">
         <n-message-provider>
           <router-view />
         </n-message-provider>
       </n-layout-content>
-      <n-layout-footer bordered position="absolute" id="footer">
-        <Footer />
-      </n-layout-footer>
     </n-loading-bar-provider>
   </n-layout>
 </template>
@@ -54,6 +46,13 @@ $footer: 45px;
   justify-content: center;
   align-items: center;
   color: #fff;
+}
+
+#menu {
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 #content {
