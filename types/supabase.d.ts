@@ -20,6 +20,7 @@ export interface paths {
           created_at?: parameters["rowFilter.category.created_at"];
           updated_at?: parameters["rowFilter.category.updated_at"];
           name?: parameters["rowFilter.category.name"];
+          color?: parameters["rowFilter.category.color"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -74,6 +75,7 @@ export interface paths {
           created_at?: parameters["rowFilter.category.created_at"];
           updated_at?: parameters["rowFilter.category.updated_at"];
           name?: parameters["rowFilter.category.name"];
+          color?: parameters["rowFilter.category.color"];
         };
         header: {
           /** Preference */
@@ -92,6 +94,7 @@ export interface paths {
           created_at?: parameters["rowFilter.category.created_at"];
           updated_at?: parameters["rowFilter.category.updated_at"];
           name?: parameters["rowFilter.category.name"];
+          color?: parameters["rowFilter.category.color"];
         };
         body: {
           /** category */
@@ -1076,308 +1079,527 @@ export interface paths {
 export interface definitions {
   category: {
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Primary Key.<pk/>
      */
     id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
+    /** Format: text */
     name?: string;
+    /** Format: text */
+    color?: string;
   };
   collection: {
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Foreign Key to `liquor.id`.<fk table='liquor' column='id'/>
      */
     liquor: number;
+    /** Format: bigint */
     purchase_price?: number;
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Foreign Key to `currency.id`.<fk table='currency' column='id'/>
      */
     purchase_currency?: number;
+    /** Format: text */
     purchase_location?: string;
+    /** Format: date */
     purchase_date?: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
+    /** Format: bigint */
     year?: number;
+    /** Format: boolean */
     public: boolean;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `picture.id`.<fk table='picture' column='id'/>
      */
     cover?: string;
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Foreign Key to `package.id`.<fk table='package' column='id'/>
      */
     package?: number;
+    /** Format: bigint */
     package_rating?: number;
+    /** Format: bigint */
     condition?: number;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `owner.id`.<fk table='owner' column='id'/>
      */
     owner?: string;
+    /** Format: boolean */
     open?: boolean;
+    /** Format: character varying */
     notes?: string;
+    /** Format: text */
     version?: string;
+    /** Format: character varying */
     purchase_notes?: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `storage.id`.<fk table='storage' column='id'/>
      */
     storage?: string;
+    /** Format: text */
     lot?: string;
+    /** Format: boolean */
     sell?: boolean;
+    /** Format: boolean */
     sold?: boolean;
   };
   currency: {
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Primary Key.<pk/>
      */
     id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
+    /** Format: text */
     symbol: string;
+    /** Format: real */
     to_eur?: number;
   };
   label: {
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Primary Key.<pk/>
      */
     id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
+    /** Format: text */
     name?: string;
   };
   liquor: {
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Primary Key.<pk/>
      */
     id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Foreign Key to `label.id`.<fk table='label' column='id'/>
      */
     label?: number;
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Foreign Key to `category.id`.<fk table='category' column='id'/>
      */
     category?: number;
+    /** Format: text */
     name?: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `picture.id`.<fk table='picture' column='id'/>
      */
     cover?: string;
+    /** Format: text */
     version?: string;
+    /** Format: character varying */
     notes?: string;
   };
   owner: {
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
-    created_at?: string;
-    updated_at?: string;
-    name: string;
     /**
-     * Note:
-     * This is a Foreign Key to `users.id`.<fk table='users' column='id'/>
+     * Format: timestamp with time zone
+     * @default now()
      */
+    created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    updated_at?: string;
+    /** Format: text */
+    name: string;
+    /** Format: uuid */
     user?: string;
   };
   package: {
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Primary Key.<pk/>
      */
     id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
+    /** Format: text */
     name: string;
   };
   picture: {
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `collection.id`.<fk table='collection' column='id'/>
      */
     collection?: string;
+    /** Format: boolean */
     candid: boolean;
   };
   price: {
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Primary Key.<pk/>
      */
     id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
     /**
-     * Note:
+     * Format: bigint
+     * @description Note:
      * This is a Foreign Key to `liquor.id`.<fk table='liquor' column='id'/>
      */
     liquor: number;
+    /** Format: integer */
     price: number;
+    /** Format: character varying */
     notes?: string;
+    /** Format: text */
     link?: string;
   };
   storage: {
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updated_at?: string;
+    /** Format: text */
     name: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `owner.id`.<fk table='owner' column='id'/>
      */
     owner?: string;
+    /** Format: character varying */
     notes?: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `storage.id`.<fk table='storage' column='id'/>
      */
     location?: string;
+    /** Format: boolean */
     full_recorded?: boolean;
   };
 }
 
 export interface parameters {
-  /** Preference */
+  /**
+   * @description Preference
+   * @enum {string}
+   */
   preferParams: "params=single-object";
-  /** Preference */
+  /**
+   * @description Preference
+   * @enum {string}
+   */
   preferReturn: "return=representation" | "return=minimal" | "return=none";
-  /** Preference */
+  /**
+   * @description Preference
+   * @enum {string}
+   */
   preferCount: "count=none";
-  /** Filtering Columns */
+  /** @description Filtering Columns */
   select: string;
-  /** On Conflict */
+  /** @description On Conflict */
   on_conflict: string;
-  /** Ordering */
+  /** @description Ordering */
   order: string;
-  /** Limiting and Pagination */
+  /** @description Limiting and Pagination */
   range: string;
-  /** Limiting and Pagination */
+  /**
+   * @description Limiting and Pagination
+   * @default items
+   */
   rangeUnit: string;
-  /** Limiting and Pagination */
+  /** @description Limiting and Pagination */
   offset: string;
-  /** Limiting and Pagination */
+  /** @description Limiting and Pagination */
   limit: string;
-  /** category */
+  /** @description category */
   "body.category": definitions["category"];
+  /** Format: bigint */
   "rowFilter.category.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.category.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.category.updated_at": string;
+  /** Format: text */
   "rowFilter.category.name": string;
-  /** collection */
+  /** Format: text */
+  "rowFilter.category.color": string;
+  /** @description collection */
   "body.collection": definitions["collection"];
+  /** Format: timestamp with time zone */
   "rowFilter.collection.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.collection.updated_at": string;
+  /** Format: bigint */
   "rowFilter.collection.liquor": string;
+  /** Format: bigint */
   "rowFilter.collection.purchase_price": string;
+  /** Format: bigint */
   "rowFilter.collection.purchase_currency": string;
+  /** Format: text */
   "rowFilter.collection.purchase_location": string;
+  /** Format: date */
   "rowFilter.collection.purchase_date": string;
+  /** Format: uuid */
   "rowFilter.collection.id": string;
+  /** Format: bigint */
   "rowFilter.collection.year": string;
+  /** Format: boolean */
   "rowFilter.collection.public": string;
+  /** Format: uuid */
   "rowFilter.collection.cover": string;
+  /** Format: bigint */
   "rowFilter.collection.package": string;
+  /** Format: bigint */
   "rowFilter.collection.package_rating": string;
+  /** Format: bigint */
   "rowFilter.collection.condition": string;
+  /** Format: uuid */
   "rowFilter.collection.owner": string;
+  /** Format: boolean */
   "rowFilter.collection.open": string;
+  /** Format: character varying */
   "rowFilter.collection.notes": string;
+  /** Format: text */
   "rowFilter.collection.version": string;
+  /** Format: character varying */
   "rowFilter.collection.purchase_notes": string;
+  /** Format: uuid */
   "rowFilter.collection.storage": string;
+  /** Format: text */
   "rowFilter.collection.lot": string;
+  /** Format: boolean */
   "rowFilter.collection.sell": string;
+  /** Format: boolean */
   "rowFilter.collection.sold": string;
-  /** currency */
+  /** @description currency */
   "body.currency": definitions["currency"];
+  /** Format: bigint */
   "rowFilter.currency.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.currency.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.currency.updated_at": string;
+  /** Format: text */
   "rowFilter.currency.symbol": string;
+  /** Format: real */
   "rowFilter.currency.to_eur": string;
-  /** label */
+  /** @description label */
   "body.label": definitions["label"];
+  /** Format: bigint */
   "rowFilter.label.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.label.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.label.updated_at": string;
+  /** Format: text */
   "rowFilter.label.name": string;
-  /** liquor */
+  /** @description liquor */
   "body.liquor": definitions["liquor"];
+  /** Format: bigint */
   "rowFilter.liquor.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.liquor.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.liquor.updated_at": string;
+  /** Format: bigint */
   "rowFilter.liquor.label": string;
+  /** Format: bigint */
   "rowFilter.liquor.category": string;
+  /** Format: text */
   "rowFilter.liquor.name": string;
+  /** Format: uuid */
   "rowFilter.liquor.cover": string;
+  /** Format: text */
   "rowFilter.liquor.version": string;
+  /** Format: character varying */
   "rowFilter.liquor.notes": string;
-  /** owner */
+  /** @description owner */
   "body.owner": definitions["owner"];
+  /** Format: uuid */
   "rowFilter.owner.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.owner.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.owner.updated_at": string;
+  /** Format: text */
   "rowFilter.owner.name": string;
+  /** Format: uuid */
   "rowFilter.owner.user": string;
-  /** package */
+  /** @description package */
   "body.package": definitions["package"];
+  /** Format: bigint */
   "rowFilter.package.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.package.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.package.updated_at": string;
+  /** Format: text */
   "rowFilter.package.name": string;
-  /** picture */
+  /** @description picture */
   "body.picture": definitions["picture"];
+  /** Format: uuid */
   "rowFilter.picture.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.picture.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.picture.updated_at": string;
+  /** Format: uuid */
   "rowFilter.picture.collection": string;
+  /** Format: boolean */
   "rowFilter.picture.candid": string;
-  /** price */
+  /** @description price */
   "body.price": definitions["price"];
+  /** Format: bigint */
   "rowFilter.price.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.price.created_at": string;
+  /** Format: bigint */
   "rowFilter.price.liquor": string;
+  /** Format: integer */
   "rowFilter.price.price": string;
+  /** Format: character varying */
   "rowFilter.price.notes": string;
+  /** Format: text */
   "rowFilter.price.link": string;
-  /** storage */
+  /** @description storage */
   "body.storage": definitions["storage"];
+  /** Format: uuid */
   "rowFilter.storage.id": string;
+  /** Format: timestamp with time zone */
   "rowFilter.storage.created_at": string;
+  /** Format: timestamp with time zone */
   "rowFilter.storage.updated_at": string;
+  /** Format: text */
   "rowFilter.storage.name": string;
+  /** Format: uuid */
   "rowFilter.storage.owner": string;
+  /** Format: character varying */
   "rowFilter.storage.notes": string;
+  /** Format: uuid */
   "rowFilter.storage.location": string;
+  /** Format: boolean */
   "rowFilter.storage.full_recorded": string;
 }
 
