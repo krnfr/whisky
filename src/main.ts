@@ -38,16 +38,16 @@ export const createApp = ViteSSG(
     if (import.meta.env.PROD) {
       log.setLevel('error')
 
-      Sentry.init({
-        Vue: ctx.app,
-        dsn: String(import.meta.env.VITE_SENTRY_DNS),
-        integrations: [new Integrations.BrowserTracing({
-          // routingInstrumentation: Sentry.vueRouterInstrumentation(ctx.router),
-        })],
-        // We recommend adjusting this value in production, or using tracesSampler
-        // for finer control
-        tracesSampleRate: 1.0,
-      })
+      // Sentry.init({
+      //   Vue: ctx.app,
+      //   dsn: String(import.meta.env.VITE_SENTRY_DNS),
+      //   integrations: [new Integrations.BrowserTracing({
+      //     // routingInstrumentation: Sentry.vueRouterInstrumentation(ctx.router),
+      //   })],
+      //   // We recommend adjusting this value in production, or using tracesSampler
+      //   // for finer control
+      //   tracesSampleRate: 1.0,
+      // })
     }
   },
 )
